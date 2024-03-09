@@ -1,7 +1,7 @@
 # main links links
 main:
 
-  - title: "CV"
+  - title: "Astro-CV"
     url: /files/pheCV.pdf
     
   - title: "Publications"
@@ -13,8 +13,8 @@ main:
   - title: "Teaching"
     url: /teaching/    
     
-  # - title: "Projects"
-  #   url: /projetcs/
+  - title: "AI-CV"
+    url: /files/CV_2024_Phelipe_ML.pdf
         
   # - title: "Blog Posts"
   #   url: /year-archive/
