@@ -21,7 +21,7 @@ repository               : "phelipedarc/phelipedarc.github.io"
 #               Additional customization can be done by editing /_includes/author-profile.html
 author:
   # Biographic information
-  avatar           : "pheprofile.png"
+  avatar           : "pheprofile.jpeg"
   name             : "Phelipe Darc"
   pronouns         : # example: "she/her"  
   bio              : "🌌 Astrophysics | 🤖 Deep Learning & AI | 🛰️ Multi-Messenger Astronomy"
