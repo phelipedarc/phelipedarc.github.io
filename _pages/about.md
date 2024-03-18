@@ -7,7 +7,7 @@ redirect_from:
   - /about.html
 ---
 
-Hey! I'm Phelipe Darc, mostly known as Phe, a physicist working with Machine Learning (ML) applied to Astrophysics/Astronomy. I am a Ph.D student at the [Centro Brasileiro De Pesquisas Físicas (CBPF)](https://www.gov.br/cbpf/pt-br/o-cbpf/biografia) in Rio de Janeiro, Brazil. I'm deeply passionate about multi-messenger astronomy and astrophysics, with particular interests in phenomena like Binary Neutron Star mergers, Kilonova ejecta models, and BBH models. Alongside, I have a strong affinity for machine learning, data science, and programming.
+Hey! I'm Phelipe Darc, mostly known as Phe, a physicist working with Machine Learning (ML) applied to Astrophysics/Astronomy. I am a Ph.D student at the [Centro Brasileiro De Pesquisas Físicas (CBPF)](https://www.gov.br/cbpf/pt-br/o-cbpf/biografia) in Rio de Janeiro, Brazil, under the supervision of [Clecio R. De Bom](https://www.researchgate.net/profile/Clecio-Bom). I'm deeply passionate about multi-messenger astronomy and astrophysics, with particular interests in phenomena like Binary Neutron Star mergers, Kilonova ejecta models, and BBH models. Alongside, I have a strong affinity for machine learning, data science, and programming.
 
 
 Research 🌌
