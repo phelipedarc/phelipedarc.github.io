@@ -1,20 +1,9 @@
 ---
-title: "Teaching experience 2"
+title: "Laboratório Didático do instituto de Física da UFRJ (LADIF)"
 collection: teaching
-type: "Workshop"
+type: "Teacher assistant and Intern"
 permalink: /teaching/2015-spring-teaching-1
-venue: "University 1, Department"
-date: 2015-01-01
-location: "City, Country"
+venue: "Universidade Federal do Rio de Janeiro"
 ---
+Taught physics classes to High school students visiting the LADIF and visited schools introducing physics experiments.
 
-This is a description of a teaching experience. You can use markdown like any other post.
-
-Heading 1
-======
-
-Heading 2
-======
-
-Heading 3
-======
