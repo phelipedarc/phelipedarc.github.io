@@ -13,8 +13,8 @@ Hey! I'm Phelipe Darc, mostly known as Phe, a physicist working with Machine Lea
 Research 🌌
 ======
 
-In my journey, I've extensively applied Deep Learning techniques to astrophysics, including Convolutional Neural Networks (CNNs), Recurrent Neural Networks (RNNs), Autoencoders, and Simulation-Based Inference (SBI).
-A notable highlight is my master’s thesis, where I developed two CNNs. One focused on artifact removal and transient identification in difference imaging, integrated into the [S-PLUS](https://www.splus.iag.usp.br/) Transient Extension Program ([STEP](https://arxiv.org/abs/2312.15057)). The other was developed to detect electromagnetic counterparts to GW events, which was incorporated into the [DESGW search and discovery pipeline](https://www.sciencedirect.com/science/article/pii/S2213133720300792) led by Marcele Soares Santos. 
+In my journey, I've extensively applied Deep Learning techniques to astrophysics and astronomy, including Convolutional Neural Networks (CNNs), Recurrent Neural Networks (RNNs), Autoencoders, and Simulation-Based Inference (SBI).
+A notable highlight is my master’s thesis, where I developed two CNNs classifiers. One focused on artifact removal and transient identification in difference imaging, integrated into the [S-PLUS](https://www.splus.iag.usp.br/) Transient Extension Program ([STEP](https://arxiv.org/abs/2312.15057)). The other was developed to detect electromagnetic counterparts to GW events, which was incorporated into the [DESGW search and discovery pipeline](https://www.sciencedirect.com/science/article/pii/S2213133720300792) led by Marcele Soares Santos. 
 
 During my internship at the Laboratório Nacional de Computação Científica ([LNCC](https://www.gov.br/lncc/pt-br/acesso-a-informacao/institucional/o-lncc-1)), I developed an algorithm utilizing BERTimbau, a variant of the BERT (Bidirectional Encoder Representations from Transformers) model. This algorithm classifyies phrases describing medical conditions in Portuguese. Additionally, I created a custom script leveraging Google APIs and the Regex library to efficiently gather and process/filter data from YouTube comments.
 
