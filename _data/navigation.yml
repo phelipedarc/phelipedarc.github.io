@@ -10,8 +10,8 @@ main:
   - title: "Talks & Posters"
     url: /talks/    
 
-  - title: "Teaching"
-    url: /teaching/    
+  # - title: "Teaching"
+  #   url: /teaching/    
     
   - title: "AI-CV"
     url: /files/CV_2024_Phelipe_ML.pdf
