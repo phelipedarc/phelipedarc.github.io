@@ -18,7 +18,12 @@ main:
   
   - title: "Master's Thesis"
     url: /files/ThesisPhelipe.pdf
-        
+    
+  - title: "NeurIPS 2024"
+    url: /files/GRBafterglow_modellin_neurips23.pdf
+
+  - title: "NeurIPS 2025"
+    url: /files/Pdarc_Neurips_2025_SR_camera_ready.pdf
   # - title: "Blog Posts"
   #   url: /year-archive/
     
