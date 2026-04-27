@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phelipe Darc — Astrophysicist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@300;400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #05080f;
+    --bg2: #090d18;
+    --bg3: #0e1525;
+    --surface: rgba(255,255,255,0.04);
+    --surface2: rgba(255,255,255,0.07);
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #e8eaf2;
+    --muted: #8a90a8;
+    --dim: #545870;
+    --accent: #7eb8f7;
+    --accent2: #a78bfa;
+    --accent3: #34d399;
+    --gold: #f5c842;
+    --serif: 'EB Garamond', Georgia, serif;
+    --sans: 'Outfit', sans-serif;
+    --mono: 'DM Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* STAR FIELD */
+  #starfield {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.2rem 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    background: rgba(5, 8, 15, 0.85);
+    backdrop-filter: blur(16px);
+  }
+
+  .nav-logo {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: 0.01em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  .nav-cta {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--accent) !important;
+    border: 1px solid rgba(126, 184, 247, 0.3);
+    padding: 0.35rem 0.9rem;
+    border-radius: 2px;
+    transition: background 0.2s, color 0.2s !important;
+  }
+
+  .nav-cta:hover {
+    background: rgba(126, 184, 247, 0.1);
+    color: var(--accent) !important;
+  }
+
+  /* LAYOUT WRAPPER */
+  .wrapper {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 8rem 3rem 4rem;
+  }
+
+  .hero-text {}
+
+  .hero-label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .hero-label::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.6;
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-size: clamp(2.8rem, 5vw, 4.2rem);
+    font-weight: 500;
+    line-height: 1.12;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent2);
+  }
+
+  .hero-subtitle {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+    margin-bottom: 1.8rem;
+    margin-top: 0.4rem;
+  }
+
+  .hero-bio {
+    font-size: 1.05rem;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+    max-width: 520px;
+  }
+
+  .hero-bio strong {
+    color: var(--text);
+    font-weight: 400;
+  }
+
+  .hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .tag {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--dim);
+    border: 1px solid var(--border2);
+    padding: 0.25rem 0.7rem;
+    border-radius: 1px;
+    text-transform: uppercase;
+  }
+
+  .tag.accent { color: var(--accent); border-color: rgba(126, 184, 247, 0.25); }
+  .tag.purple { color: var(--accent2); border-color: rgba(167, 139, 250, 0.25); }
+  .tag.green { color: var(--accent3); border-color: rgba(52, 211, 153, 0.25); }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.6rem;
+    font-family: var(--sans);
+    font-size: 0.82rem;
+    font-weight: 400;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: all 0.2s;
+    letter-spacing: 0.05em;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #05080f;
+    font-weight: 500;
+  }
+
+  .btn-primary:hover { background: #a3cffb; }
+
+  .btn-ghost {
+    border: 1px solid var(--border2);
+    color: var(--muted);
+  }
+
+  .btn-ghost:hover { border-color: var(--border2); background: var(--surface2); color: var(--text); }
+
+  /* HERO VISUAL */
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .profile-orbit {
+    position: relative;
+    width: 340px;
+    height: 340px;
+  }
+
+  .profile-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1px solid var(--border2);
+    animation: spinSlow 30s linear infinite;
+  }
+
+  .profile-ring::after {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--accent);
+  }
+
+  .profile-ring-2 {
+    position: absolute;
+    inset: 30px;
+    border-radius: 50%;
+    border: 1px dashed rgba(167, 139, 250, 0.2);
+    animation: spinSlow 45s linear infinite reverse;
+  }
+
+  .profile-img-wrap {
+    position: absolute;
+    inset: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--border2);
+    background: var(--bg3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .profile-initials {
+    font-family: var(--serif);
+    font-size: 4rem;
+    color: var(--dim);
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  .orbit-stat {
+    position: absolute;
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 0.3rem 0.6rem;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+
+  .orbit-stat.s1 { top: -8px; right: -20px; }
+  .orbit-stat.s2 { bottom: 30px; right: -50px; }
+  .orbit-stat.s3 { bottom: -8px; left: 10px; }
+
+  .orbit-dot {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--accent2);
+    box-shadow: 0 0 6px var(--accent2);
+  }
+
+  @keyframes spinSlow { to { transform: rotate(360deg); } }
+
+  /* SECTION BASE */
+  section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 5rem 3rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .section-num {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--dim);
+    letter-spacing: 0.15em;
+  }
+
+  .section-title {
+    font-family: var(--serif);
+    font-size: 2rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* RESEARCH GRID */
+  .research-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .research-card {
+    background: var(--bg);
+    padding: 2rem 2.2rem;
+    transition: background 0.2s;
+    cursor: default;
+  }
+
+  .research-card:hover { background: var(--bg3); }
+
+  .research-card-label {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    color: var(--dim);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .research-card-title {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 0.8rem;
+    line-height: 1.3;
+  }
+
+  .research-card p {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.75;
+  }
+
+  .research-accent-sbi { border-top: 2px solid var(--accent); }
+  .research-accent-cv { border-top: 2px solid var(--accent2); }
+  .research-accent-bbh { border-top: 2px solid var(--accent3); }
+  .research-accent-llm { border-top: 2px solid var(--gold); }
+
+  /* PUBLICATIONS */
+  .pub-list { display: flex; flex-direction: column; gap: 0; }
+
+  .pub-item {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 1.5rem;
+    padding: 2rem 0;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+
+  .pub-item:first-child { border-top: 1px solid var(--border); }
+
+  .pub-year {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+    padding-top: 0.2rem;
+  }
+
+  .pub-content {}
+
+  .pub-venue {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+
+  .pub-title {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+  }
+
+  .pub-authors {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-bottom: 0.7rem;
+  }
+
+  .pub-authors strong { color: var(--text); font-weight: 400; }
+
+  .pub-link {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--dim);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    border-bottom: 1px solid var(--border2);
+    padding-bottom: 1px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .pub-link:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* CV / TIMELINE */
+  .cv-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+
+  .cv-col-title {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--dim);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cv-entry {
+    display: grid;
+    grid-template-columns: 3px 1fr;
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+    position: relative;
+  }
+
+  .cv-line {
+    background: var(--border2);
+    border-radius: 1px;
+    position: relative;
+  }
+
+  .cv-line::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: -3px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 1px solid var(--accent);
+  }
+
+  .cv-date {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.3rem;
+  }
+
+  .cv-role {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: 0.15rem;
+  }
+
+  .cv-place {
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+
+  /* SKILLS */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 1rem;
+  }
+
+  .skill-group-title {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .skill-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+  }
+
+  .skill-name {
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+
+  .skill-bar {
+    width: 80px;
+    height: 2px;
+    background: var(--border);
+    border-radius: 1px;
+    overflow: hidden;
+  }
+
+  .skill-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 1px;
+  }
+
+  /* CONTACT */
+  .contact-section {
+    background: var(--bg3);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .contact-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 5rem 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .contact-heading {
+    font-family: var(--serif);
+    font-size: 2.2rem;
+    font-weight: 500;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+
+  .contact-text {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    group: true;
+  }
+
+  .contact-link-icon {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+    width: 60px;
+    text-transform: uppercase;
+  }
+
+  .contact-link-val {
+    font-size: 0.88rem;
+    color: var(--muted);
+    transition: color 0.2s;
+    border-bottom: 1px solid transparent;
+  }
+
+  .contact-link:hover .contact-link-val {
+    color: var(--text);
+    border-bottom-color: var(--border2);
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .footer-copy {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .footer-links a {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: var(--dim);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--muted); }
+
+  /* DIVIDER */
+  .cosmic-divider {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 3rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    opacity: 0.3;
+  }
+
+  .cosmic-divider::before,
+  .cosmic-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border2);
+  }
+
+  .cosmic-divider-symbol {
+    font-family: var(--serif);
+    font-size: 0.7rem;
+    color: var(--dim);
+    letter-spacing: 0.3em;
+  }
+
+  /* SCROLL INDICATOR */
+  .scroll-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--mono);
+    font-size: 0.58rem;
+    color: var(--dim);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    animation: fadeUpDown 2s ease-in-out infinite;
+  }
+
+  .scroll-hint::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 32px;
+    background: var(--dim);
+  }
+
+  @keyframes fadeUpDown {
+    0%, 100% { opacity: 0.4; transform: translateX(-50%) translateY(0); }
+    50% { opacity: 0.8; transform: translateX(-50%) translateY(-4px); }
+  }
+
+  /* ANIMATED ENTRY */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* HIGHLIGHT NUMBER */
+  .stat-row {
+    display: flex;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .stat-item {}
+
+  .stat-num {
+    font-family: var(--serif);
+    font-size: 2.5rem;
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 0.2rem;
+  }
+
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: var(--dim);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="starfield"></canvas>
+
+<nav>
+  <a href="#" class="nav-logo">Phelipe Darc</a>
+  <ul class="nav-links">
+    <li><a href="#research">Research</a></li>
+    <li><a href="#publications">Publications</a></li>
+    <li><a href="#cv">Curriculum</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="files/pheCV.pdf" class="nav-cta">Download CV</a></li>
+  </ul>
+</nav>
+
+<div class="wrapper">
+
+  <!-- HERO -->
+  <div style="position:relative;">
+    <div class="hero">
+      <div class="hero-text">
+        <div class="hero-label">Ph.D. Candidate · CBPF · Rio de Janeiro</div>
+        <h1>Phelipe <em>Darc</em></h1>
+        <div class="hero-subtitle">ASTROPHYSICS / MACHINE LEARNING / MULTI-MESSENGER ASTRONOMY</div>
+        <p class="hero-bio">
+          I use <strong>neural networks</strong> to understand the universe at its most violent: neutron star mergers, kilonovae, and gravitational-wave counterparts. My work bridges rigorous astrophysics with <strong>simulation-based inference</strong> and deep learning to extract meaning from transient signals at the speed of light.
+        </p>
+        <div class="hero-tags">
+          <span class="tag accent">Simulation-Based Inference</span>
+          <span class="tag purple">Kilonova Modeling</span>
+          <span class="tag green">Gravitational Waves</span>
+          <span class="tag">Binary Neutron Stars</span>
+          <span class="tag">Computer Vision</span>
+          <span class="tag">LLMs</span>
+        </div>
+        <div class="hero-actions">
+          <a href="#research" class="btn btn-primary">Explore Research</a>
+          <a href="#publications" class="btn btn-ghost">Publications</a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="profile-orbit">
+          <div class="profile-ring"></div>
+          <div class="profile-ring-2"></div>
+          <div class="profile-img-wrap">
+            <span class="profile-initials">PD</span>
+          </div>
+          <div class="orbit-stat s1">CBPF · RIO DE JANEIRO</div>
+          <div class="orbit-stat s2">ORCID 0000-0001-8833-474X</div>
+          <div class="orbit-stat s3">NEURIPS 2023 / 2024</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-hint">Scroll</div>
+  </div>
+
+  <div class="cosmic-divider"><span class="cosmic-divider-symbol">* * *</span></div>
+
+  <!-- RESEARCH -->
+  <section id="research">
+    <div class="section-header fade-in">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Research</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="stat-row fade-in">
+      <div class="stat-item">
+        <div class="stat-num">10+</div>
+        <div class="stat-label">Publications</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">2</div>
+        <div class="stat-label">NeurIPS Papers</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Observatories</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">GW</div>
+        <div class="stat-label">Multi-Messenger</div>
+      </div>
+    </div>
+
+    <div class="research-grid fade-in">
+      <div class="research-card research-accent-sbi">
+        <div class="research-card-label">Primary Research</div>
+        <div class="research-card-title">Simulation-Based Inference for Kilonova Spectroscopy</div>
+        <p>Employing amortized Neural Posterior Estimation (ANPE) to rapidly infer kilonova physical parameters—ejecta mass, velocity, composition—from spectral energy distributions. Validated on AT 2017gfo, the only kilonova with confirmed multi-messenger data, matching MCMC methods while reducing inference time to seconds.</p>
+      </div>
+      <div class="research-card research-accent-cv">
+        <div class="research-card-label">Computer Vision</div>
+        <div class="research-card-title">Transient Identification in Difference Imaging</div>
+        <p>Developed CNN classifiers for artifact removal and transient identification integrated into the S-PLUS Transient Extension Program (STEP). A second network detects electromagnetic counterparts to gravitational-wave events, incorporated into the DESGW search and discovery pipeline.</p>
+      </div>
+      <div class="research-card research-accent-bbh">
+        <div class="research-card-label">Binary Black Holes</div>
+        <div class="research-card-title">EM Follow-Up of BBH Mergers in AGN Disks</div>
+        <p>Leading analysis of the LIGO/Virgo/KAGRA BBH merger candidate S231206cc, investigating potential electromagnetic emissions from merger remnant interactions with AGN accretion disks. Testing flare emission models by McKernan, Tagawa, and Rodríguez-Ramírez to probe detectability of EM counterparts.</p>
+      </div>
+      <div class="research-card research-accent-llm">
+        <div class="research-card-label">Natural Language Processing</div>
+        <div class="research-card-title">BERTimbau for Portuguese Medical Text Classification</div>
+        <p>During internship at LNCC, developed a BERTimbau-based algorithm classifying medical condition phrases in Portuguese. Built custom data pipelines using Google APIs and Regex to gather and filter YouTube comment data, bridging NLP and health informatics.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="cosmic-divider"><span class="cosmic-divider-symbol">* * *</span></div>
+
+  <!-- PUBLICATIONS -->
+  <section id="publications">
+    <div class="section-header fade-in">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Publications</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div style="display:flex; gap:0.75rem; margin-bottom:2rem; flex-wrap:wrap;" class="fade-in">
+      <a href="https://scholar.google.com/citations?user=PS_CX0AAAAAJ" target="_blank" class="btn btn-ghost" style="font-size:0.75rem; padding:0.5rem 1.1rem;">Google Scholar</a>
+      <a href="https://www.researchgate.net/profile/Phelipe-Darc" target="_blank" class="btn btn-ghost" style="font-size:0.75rem; padding:0.5rem 1.1rem;">ResearchGate</a>
+      <a href="https://orcid.org/0000-0001-8833-474X" target="_blank" class="btn btn-ghost" style="font-size:0.75rem; padding:0.5rem 1.1rem;">ORCID</a>
+    </div>
+
+    <div style="font-family:var(--mono); font-size:0.6rem; letter-spacing:0.15em; color:var(--dim); margin-bottom:1.5rem; text-transform:uppercase;" class="fade-in">
+      <span style="display:inline-block; background:rgba(126,184,247,0.12); border:1px solid rgba(126,184,247,0.25); color:var(--accent); padding:0.2rem 0.55rem; border-radius:1px; margin-right:0.5rem;">First Author</span>
+      entries marked in blue &nbsp;·&nbsp; bold = P. Darc
+    </div>
+
+    <div class="pub-list fade-in">
+
+      <!-- 2026 first-author -->
+      <div class="pub-item" style="border-left: 2px solid rgba(126,184,247,0.4); padding-left:1rem; margin-left:-1rem;">
+        <div class="pub-year">2026</div>
+        <div class="pub-content">
+          <div class="pub-venue" style="display:flex; align-items:center; gap:0.6rem;">
+            arXiv Preprint
+            <span style="font-family:var(--mono); font-size:0.58rem; background:rgba(126,184,247,0.12); border:1px solid rgba(126,184,247,0.25); color:var(--accent); padding:0.15rem 0.5rem; border-radius:1px; letter-spacing:0.1em;">First Author</span>
+          </div>
+          <div class="pub-title">Searching for Binary Black Hole Merger Emission in AGN Disks: Optical and Spectroscopic Follow-up of S240413p</div>
+          <div class="pub-authors"><strong>P. Darc</strong>, Bom C.R., Santos A., Panda S., Rodríguez-Ramírez J.C., Kilpatrick C.D., de Oliveira C.M., et al.</div>
+          <a href="https://arxiv.org/abs/2603.26972" target="_blank" class="pub-link">arXiv:2603.26972</a>
+        </div>
+      </div>
+
+      <!-- 2026 co-author SAGUI -->
+      <div class="pub-item">
+        <div class="pub-year">2026</div>
+        <div class="pub-content">
+          <div class="pub-venue">arXiv Preprint · Instrumentation & Methods</div>
+          <div class="pub-title">SAGUI: SED-based Segmentation of Multi-band Galaxy Images — Application to JADES in GOODS-South</div>
+          <div class="pub-authors">de Souza R.S., Wille A., Shenoy S., …, <strong>P. Darc</strong>, Durgesh R.</div>
+          <a href="https://arxiv.org/abs/2604.18812" target="_blank" class="pub-link">arXiv:2604.18812</a>
+        </div>
+      </div>
+
+      <!-- 2026 co-author SN 2022acko -->
+      <div class="pub-item">
+        <div class="pub-year">2026</div>
+        <div class="pub-content">
+          <div class="pub-venue">The Astrophysical Journal · Vol 998</div>
+          <div class="pub-title">SN 2022acko and the Properties of Its Red Supergiant Progenitor: Direct Detection, Light Curves, and Nebular Spectroscopy</div>
+          <div class="pub-authors">Teixeira G., Kilpatrick C.D., Bom C.R., Santos A., <strong>P. Darc</strong>, et al.</div>
+          <a href="https://doi.org/10.3847/1538-4357/ae27a0" target="_blank" class="pub-link">ApJ 998(1):123</a>
+        </div>
+      </div>
+
+      <!-- 2026 co-author subsolar mass GW -->
+      <div class="pub-item">
+        <div class="pub-year">2026</div>
+        <div class="pub-content">
+          <div class="pub-venue">arXiv Preprint · High Energy Astrophysics</div>
+          <div class="pub-title">Search For a Counterpart to the Subsolar Mass Gravitational Wave Candidate S251112cm</div>
+          <div class="pub-authors">Vieira N., Franz N., Subrayan B., Kilpatrick C.D., …, <strong>P. Darc</strong>, et al.</div>
+          <a href="https://arxiv.org/abs/2603.17009" target="_blank" class="pub-link">arXiv:2603.17009</a>
+        </div>
+      </div>
+
+      <!-- 2025 first-author PRD -->
+      <div class="pub-item" style="border-left: 2px solid rgba(126,184,247,0.4); padding-left:1rem; margin-left:-1rem;">
+        <div class="pub-year">2025</div>
+        <div class="pub-content">
+          <div class="pub-venue" style="display:flex; align-items:center; gap:0.6rem;">
+            Physical Review D · Vol 112(6)
+            <span style="font-family:var(--mono); font-size:0.58rem; background:rgba(126,184,247,0.12); border:1px solid rgba(126,184,247,0.25); color:var(--accent); padding:0.15rem 0.5rem; border-radius:1px; letter-spacing:0.1em;">First Author</span>
+          </div>
+          <div class="pub-title">Long-term Optical Follow-up of S231206cc: Multimodel Constraints on BBH Merger Emission in AGN Disks</div>
+          <div class="pub-authors"><strong>P. Darc</strong>, Bom C.R., Kilpatrick C.D., Santos A.S., Fraga B., Rodríguez-Ramírez J.C., Coulter D.A., et al.</div>
+          <a href="https://doi.org/10.1103/6rg8-2xxz" target="_blank" class="pub-link">Phys. Rev. D 112, 6</a>
+        </div>
+      </div>
+
+      <!-- 2025 co-author Franz kilonova search -->
+      <div class="pub-item">
+        <div class="pub-year">2025</div>
+        <div class="pub-content">
+          <div class="pub-venue">The Astrophysical Journal Letters · Vol 994(2)</div>
+          <div class="pub-title">Optimizing Kilonova Searches: A Case Study of the Type IIb SN 2025ulz in the Localization Volume of Gravitational Wave Event S250818k</div>
+          <div class="pub-authors">Franz N., Subrayan B., Kilpatrick C.D., …, Bom C.R., <strong>P. Darc</strong>, et al.</div>
+          <a href="https://doi.org/10.3847/2041-8213/ae17a8" target="_blank" class="pub-link">ApJL 994(2):L45</a>
+        </div>
+      </div>
+
+      <!-- 2025 NeurIPS -->
+      <div class="pub-item" style="border-left: 2px solid rgba(126,184,247,0.4); padding-left:1rem; margin-left:-1rem;">
+        <div class="pub-year">2025</div>
+        <div class="pub-content">
+          <div class="pub-venue" style="display:flex; align-items:center; gap:0.6rem;">
+            NeurIPS 2025 · ML and Physical Sciences Workshop
+            <span style="font-family:var(--mono); font-size:0.58rem; background:rgba(126,184,247,0.12); border:1px solid rgba(126,184,247,0.25); color:var(--accent); padding:0.15rem 0.5rem; border-radius:1px; letter-spacing:0.1em;">First Author</span>
+          </div>
+          <div class="pub-title">Simulation-Based Inference for Astrophysical Transients (Camera-Ready)</div>
+          <div class="pub-authors"><strong>P. Darc</strong> et al.</div>
+          <a href="files/Pdarc_Neurips_2025_SR_camera_ready.pdf" class="pub-link">Workshop Paper</a>
+        </div>
+      </div>
+
+      <!-- 2024 first-author ApJ -->
+      <div class="pub-item" style="border-left: 2px solid rgba(126,184,247,0.4); padding-left:1rem; margin-left:-1rem;">
+        <div class="pub-year">2024</div>
+        <div class="pub-content">
+          <div class="pub-venue" style="display:flex; align-items:center; gap:0.6rem;">
+            The Astrophysical Journal · Vol 971(1)
+            <span style="font-family:var(--mono); font-size:0.58rem; background:rgba(126,184,247,0.12); border:1px solid rgba(126,184,247,0.25); color:var(--accent); padding:0.15rem 0.5rem; border-radius:1px; letter-spacing:0.1em;">First Author</span>
+          </div>
+          <div class="pub-title">Kilonova Spectral Inverse Modelling with Simulation-Based Inference: An Amortized Neural Posterior Estimation Analysis</div>
+          <div class="pub-authors"><strong>P. Darc</strong>, Bom C.R., Fraga B., Kilpatrick C.D.</div>
+          <a href="https://doi.org/10.3847/1538-4357/ad53c7" target="_blank" class="pub-link">ApJ 971(1):82</a>
+          &nbsp;&nbsp;<a href="https://arxiv.org/abs/2311.09471" target="_blank" class="pub-link">arXiv:2311.09471</a>
+        </div>
+      </div>
+
+      <!-- 2024 NeurIPS -->
+      <div class="pub-item" style="border-left: 2px solid rgba(126,184,247,0.4); padding-left:1rem; margin-left:-1rem;">
+        <div class="pub-year">2024</div>
+        <div class="pub-content">
+          <div class="pub-venue" style="display:flex; align-items:center; gap:0.6rem;">
+            NeurIPS 2024 · ML and Physical Sciences Workshop
+            <span style="font-family:var(--mono); font-size:0.58rem; background:rgba(126,184,247,0.12); border:1px solid rgba(126,184,247,0.25); color:var(--accent); padding:0.15rem 0.5rem; border-radius:1px; letter-spacing:0.1em;">First Author</span>
+          </div>
+          <div class="pub-title">Multi-Wavelength Kilonova Modeling with Truncated Sequential Neural Posterior Estimation — GRB 230307A Afterglow</div>
+          <div class="pub-authors"><strong>P. Darc</strong> et al.</div>
+          <a href="files/GRBafterglow_modellin_neurips23.pdf" class="pub-link">Workshop Paper</a>
+        </div>
+      </div>
+
+      <!-- 2024 MNRAS Hubble -->
+      <div class="pub-item">
+        <div class="pub-year">2024</div>
+        <div class="pub-content">
+          <div class="pub-venue">Monthly Notices of the Royal Astronomical Society · Vol 535(1)</div>
+          <div class="pub-title">A Dark Standard Siren Measurement of the Hubble Constant Following LIGO/Virgo/KAGRA O4a and Previous Runs</div>
+          <div class="pub-authors">Bom C.R., Alfradique V., Palmese A., Teixeira G., Santana-Silva L., Santos A., <strong>P. Darc</strong></div>
+          <a href="https://doi.org/10.1093/mnras/stae2390" target="_blank" class="pub-link">MNRAS 535(1):961–975</a>
+        </div>
+      </div>
+
+      <!-- 2024 MNRAS STEP -->
+      <div class="pub-item">
+        <div class="pub-year">2024</div>
+        <div class="pub-content">
+          <div class="pub-venue">Monthly Notices of the Royal Astronomical Society · Vol 529(1)</div>
+          <div class="pub-title">The S-PLUS Transient Extension Program: Imaging Pipeline, Transient Identification, and Survey Optimization for Multi-Messenger Astronomy</div>
+          <div class="pub-authors">Santos A., Kilpatrick C.D., Bom C.R., <strong>P. Darc</strong>, Herpich F.R., et al.</div>
+          <a href="https://doi.org/10.1093/mnras/stae466" target="_blank" class="pub-link">MNRAS 529(1):59–73</a>
+        </div>
+      </div>
+
+      <!-- 2024 Astronomy & Computing photoz -->
+      <div class="pub-item">
+        <div class="pub-year">2024</div>
+        <div class="pub-content">
+          <div class="pub-venue">Astronomy and Computing</div>
+          <div class="pub-title">Photometric Redshifts Probability Density Estimation from Recurrent Neural Networks in the DECam Local Volume Exploration Survey Data Release 2</div>
+          <div class="pub-authors">Teixeira G., Bom C.R., Santana-Silva L., Fraga B.M.O., <strong>P. Darc</strong>, et al.</div>
+          <a href="https://doi.org/10.1016/j.ascom.2024.100886" target="_blank" class="pub-link">A&C 100886</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="cosmic-divider"><span class="cosmic-divider-symbol">* * *</span></div>
+
+  <!-- CV -->
+  <section id="cv">
+    <div class="section-header fade-in">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Curriculum Vitae</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="cv-grid fade-in">
+      <div>
+        <div class="cv-col-title">Education</div>
+
+        <div class="cv-entry">
+          <div class="cv-line"></div>
+          <div>
+            <div class="cv-date">2023 — PRESENT</div>
+            <div class="cv-role">Ph.D. in Physics</div>
+            <div class="cv-place">Centro Brasileiro De Pesquisas Físicas (CBPF) · Rio de Janeiro<br>Supervisor: Clecio R. De Bom</div>
+          </div>
+        </div>
+
+        <div class="cv-entry">
+          <div class="cv-line"></div>
+          <div>
+            <div class="cv-date">2021 — 2023</div>
+            <div class="cv-role">M.Sc. in Physics</div>
+            <div class="cv-place">Centro Brasileiro De Pesquisas Físicas (CBPF) · Rio de Janeiro</div>
+          </div>
+        </div>
+
+        <div class="cv-entry">
+          <div class="cv-line"></div>
+          <div>
+            <div class="cv-date">2016 — 2021</div>
+            <div class="cv-role">B.Sc. in Physics</div>
+            <div class="cv-place">Universidade Federal Fluminense (UFF)</div>
+          </div>
+        </div>
+
+        <div class="cv-col-title" style="margin-top:2.5rem;">Selected Talks & Posters</div>
+
+        <div class="cv-entry">
+          <div class="cv-line" style="background: rgba(167,139,250,0.4);"></div>
+          <div>
+            <div class="cv-date">NEURIPS 2024</div>
+            <div class="cv-role">ML and the Physical Sciences Workshop</div>
+            <div class="cv-place">Vancouver, Canada</div>
+          </div>
+        </div>
+
+        <div class="cv-entry">
+          <div class="cv-line" style="background: rgba(167,139,250,0.4);"></div>
+          <div>
+            <div class="cv-date">NEURIPS 2023</div>
+            <div class="cv-role">ML and the Physical Sciences Workshop</div>
+            <div class="cv-place">New Orleans, USA</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="cv-col-title">Experience</div>
+
+        <div class="cv-entry">
+          <div class="cv-line" style="background: rgba(52,211,153,0.4);"></div>
+          <div>
+            <div class="cv-date">2022</div>
+            <div class="cv-role">Research Internship</div>
+            <div class="cv-place">Laboratório Nacional de Computação Científica (LNCC)<br>NLP / BERTimbau / Medical Portuguese</div>
+          </div>
+        </div>
+
+        <div class="cv-entry">
+          <div class="cv-line" style="background: rgba(52,211,153,0.4);"></div>
+          <div>
+            <div class="cv-date">2020 — 2021</div>
+            <div class="cv-role">Research Assistant</div>
+            <div class="cv-place">DESGW Collaboration — Electromagnetic follow-up of GW events</div>
+          </div>
+        </div>
+
+        <div class="cv-col-title" style="margin-top:2.5rem;">Technical Skills</div>
+
+        <div class="skills-grid" style="grid-template-columns: 1fr;">
+          <div>
+            <div class="skill-group-title">Machine Learning</div>
+            <div class="skill-item">
+              <span class="skill-name">Simulation-Based Inference</span>
+              <div class="skill-bar"><div class="skill-fill" style="width:95%"></div></div>
+            </div>
+            <div class="skill-item">
+              <span class="skill-name">CNNs / RNNs / Autoencoders</span>
+              <div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div>
+            </div>
+            <div class="skill-item">
+              <span class="skill-name">Bayesian Inference / MCMC</span>
+              <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
+            </div>
+            <div class="skill-item">
+              <span class="skill-name">Transformers / BERT</span>
+              <div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div>
+            </div>
+          </div>
+          <div style="margin-top:1.2rem;">
+            <div class="skill-group-title">Tools & Languages</div>
+            <div class="skill-item">
+              <span class="skill-name">Python / PyTorch / JAX</span>
+              <div class="skill-bar"><div class="skill-fill" style="width:95%; background: var(--accent2)"></div></div>
+            </div>
+            <div class="skill-item">
+              <span class="skill-name">swyft / lampe / numpyro</span>
+              <div class="skill-bar"><div class="skill-fill" style="width:85%; background: var(--accent2)"></div></div>
+            </div>
+            <div class="skill-item">
+              <span class="skill-name">Astropy / KilonovaNet</span>
+              <div class="skill-bar"><div class="skill-fill" style="width:90%; background: var(--accent2)"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:3rem; display:flex; gap:1rem;" class="fade-in">
+      <a href="files/pheCV.pdf" class="btn btn-primary">Full Astro CV</a>
+      <a href="files/CV_2024_Phelipe_ML.pdf" class="btn btn-ghost">AI / ML CV</a>
+      <a href="files/ThesisPhelipe.pdf" class="btn btn-ghost">Master's Thesis</a>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <div class="contact-section" id="contact">
+    <div class="contact-inner">
+      <div class="fade-in">
+        <div class="hero-label" style="margin-bottom:1rem;">04 / Contact</div>
+        <div class="contact-heading">Open to postdoc and research collaborations</div>
+        <p class="contact-text">I am currently a Ph.D. candidate at CBPF, actively seeking postdoctoral opportunities in astrophysics, multi-messenger astronomy, or machine learning applied to physical sciences. I welcome opportunities to collaborate on challenging open problems at the intersection of AI and astrophysics.</p>
+      </div>
+      <div class="contact-links fade-in">
+        <a href="mailto:phelipedarc@gmail.com" class="contact-link">
+          <span class="contact-link-icon">Email</span>
+          <span class="contact-link-val">phelipedarc@gmail.com</span>
+        </a>
+        <a href="https://github.com/phelipedarc" target="_blank" class="contact-link">
+          <span class="contact-link-icon">GitHub</span>
+          <span class="contact-link-val">github.com/phelipedarc</span>
+        </a>
+        <a href="https://linkedin.com/in/phelipedarc" target="_blank" class="contact-link">
+          <span class="contact-link-icon">LinkedIn</span>
+          <span class="contact-link-val">linkedin.com/in/phelipedarc</span>
+        </a>
+        <a href="https://scholar.google.com/citations?user=PS_CX0AAAAAJ" target="_blank" class="contact-link">
+          <span class="contact-link-icon">Scholar</span>
+          <span class="contact-link-val">Google Scholar Profile</span>
+        </a>
+        <a href="https://www.researchgate.net/profile/Phelipe-Darc" target="_blank" class="contact-link">
+          <span class="contact-link-icon">RGate</span>
+          <span class="contact-link-val">ResearchGate Profile</span>
+        </a>
+        <a href="https://orcid.org/0000-0001-8833-474X" target="_blank" class="contact-link">
+          <span class="contact-link-icon">ORCID</span>
+          <span class="contact-link-val">0000-0001-8833-474X</span>
+        </a>
+        <a href="https://www.kaggle.com/phelipeantoniedarc" target="_blank" class="contact-link">
+          <span class="contact-link-icon">Kaggle</span>
+          <span class="contact-link-val">phelipeantoniedarc</span>
+        </a>
+        <div style="margin-top:1.5rem;">
+          <div style="font-family: var(--mono); font-size:0.62rem; color:var(--dim); letter-spacing:0.1em; margin-bottom:0.5rem; text-transform:uppercase;">Affiliation</div>
+          <div style="font-size:0.85rem; color:var(--muted);">Centro Brasileiro De Pesquisas Físicas (CBPF)<br>Rio de Janeiro, Brazil</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-copy">Phelipe Darc · CBPF · 2025</div>
+    <div class="footer-links">
+      <a href="files/pheCV.pdf">CV</a>
+      <a href="https://github.com/phelipedarc" target="_blank">GitHub</a>
+      <a href="https://orcid.org/0000-0001-8833-474X" target="_blank">ORCID</a>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+// Starfield
+const canvas = document.getElementById('starfield');
+const ctx = canvas.getContext('2d');
+let stars = [];
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+
+function initStars() {
+  stars = [];
+  const count = Math.floor((canvas.width * canvas.height) / 4500);
+  for (let i = 0; i < count; i++) {
+    stars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.2,
+      a: Math.random(),
+      speed: 0.0003 + Math.random() * 0.0008,
+      phase: Math.random() * Math.PI * 2
+    });
+  }
+}
+
+function drawStars(t) {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for (const s of stars) {
+    const alpha = 0.3 + 0.5 * Math.sin(t * s.speed * 1000 + s.phase);
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(200, 215, 240, ${alpha * s.a})`;
+    ctx.fill();
+  }
+  requestAnimationFrame(drawStars);
+}
+
+resize();
+initStars();
+requestAnimationFrame(drawStars);
+window.addEventListener('resize', () => { resize(); initStars(); });
+
+// Scroll fade-in
+const fadeEls = document.querySelectorAll('.fade-in');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.12 });
+fadeEls.forEach(el => observer.observe(el));
+
+// Stagger hero fade in immediately
+document.querySelectorAll('.hero .fade-in, .hero-text, .hero-visual').forEach((el, i) => {
+  el.style.opacity = '1';
+  el.style.transform = 'none';
+});
+</script>
+
+</body>
+</html>
