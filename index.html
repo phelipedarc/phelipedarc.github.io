@@ -818,12 +818,53 @@
       </div>
 
       <div class="hero-visual">
-        <div class="profile-orbit">
+        <div class="profile-orbit" style="width:380px; height:380px;">
+
+          <!-- Outer orbit ring for black holes -->
+          <div style="position:absolute; inset:-20px; border-radius:50%; border:1px solid rgba(255,255,255,0.06); animation:spinSlow 50s linear infinite;"></div>
+
+          <!-- Middle orbit ring for neutron star -->
           <div class="profile-ring"></div>
           <div class="profile-ring-2"></div>
+
+          <!-- Profile image -->
           <div class="profile-img-wrap">
             <span class="profile-initials">PD</span>
           </div>
+
+          <!-- Neutron star — glowing blue-white, fast orbit -->
+          <div style="position:absolute; inset:0; animation:spinSlow 12s linear infinite;">
+            <div style="position:absolute; top:-6px; left:50%; transform:translateX(-50%);">
+              <div style="width:12px; height:12px; border-radius:50%; background:radial-gradient(circle, #e8f4ff 0%, #7eb8f7 50%, rgba(126,184,247,0.2) 100%); box-shadow:0 0 10px 3px rgba(126,184,247,0.6), 0 0 20px 6px rgba(126,184,247,0.2);"></div>
+              <div style="font-family:var(--mono); font-size:0.42rem; color:rgba(126,184,247,0.7); letter-spacing:0.08em; text-align:center; margin-top:3px; white-space:nowrap;">NS</div>
+            </div>
+          </div>
+
+          <!-- Black hole 1 — dark with accretion ring, medium orbit, clockwise -->
+          <div style="position:absolute; inset:-20px; animation:spinSlow 28s linear infinite;">
+            <div style="position:absolute; top:8px; left:50%; transform:translateX(-50%);">
+              <!-- Accretion disk -->
+              <div style="position:relative; width:22px; height:22px; display:flex; align-items:center; justify-content:center;">
+                <div style="position:absolute; width:22px; height:8px; border-radius:50%; border:1px solid rgba(245,200,66,0.5); box-shadow:0 0 6px rgba(245,200,66,0.3);"></div>
+                <!-- BH event horizon -->
+                <div style="width:10px; height:10px; border-radius:50%; background:#0a0d18; border:1.5px solid rgba(245,200,66,0.7); box-shadow:0 0 8px 2px rgba(245,200,66,0.35), inset 0 0 4px rgba(0,0,0,0.9); position:relative; z-index:1;"></div>
+              </div>
+              <div style="font-family:var(--mono); font-size:0.42rem; color:rgba(245,200,66,0.6); letter-spacing:0.08em; text-align:center; margin-top:2px; white-space:nowrap;">BH</div>
+            </div>
+          </div>
+
+          <!-- Black hole 2 — dark with accretion ring, outer orbit, counter-clockwise -->
+          <div style="position:absolute; inset:-20px; animation:spinSlow 40s linear infinite reverse;">
+            <div style="position:absolute; bottom:8px; left:50%; transform:translateX(-50%);">
+              <div style="position:relative; width:20px; height:20px; display:flex; align-items:center; justify-content:center;">
+                <div style="position:absolute; width:20px; height:7px; border-radius:50%; border:1px solid rgba(167,139,250,0.45); box-shadow:0 0 6px rgba(167,139,250,0.25);"></div>
+                <div style="width:9px; height:9px; border-radius:50%; background:#0a0d18; border:1.5px solid rgba(167,139,250,0.65); box-shadow:0 0 8px 2px rgba(167,139,250,0.3), inset 0 0 4px rgba(0,0,0,0.9); position:relative; z-index:1;"></div>
+              </div>
+              <div style="font-family:var(--mono); font-size:0.42rem; color:rgba(167,139,250,0.6); letter-spacing:0.08em; text-align:center; margin-top:2px; white-space:nowrap;">BH</div>
+            </div>
+          </div>
+
+          <!-- Info badges -->
           <div class="orbit-stat s1">CBPF · RIO DE JANEIRO</div>
           <div class="orbit-stat s2">CIERA · NORTHWESTERN 2025–26</div>
           <div class="orbit-stat s3">NEURIPS 2023 / 2024 / 2025</div>
@@ -865,24 +906,24 @@
 
     <div class="research-grid fade-in">
       <div class="research-card research-accent-sbi">
-        <div class="research-card-label">Primary Research</div>
-        <div class="research-card-title">Simulation-Based Inference for Kilonova Spectroscopy</div>
-        <p>Employing amortized Neural Posterior Estimation (ANPE) to rapidly infer kilonova physical parameters—ejecta mass, velocity, composition—from spectral energy distributions. Validated on AT 2017gfo, the only kilonova with confirmed multi-messenger data, matching MCMC methods while reducing inference time to seconds.</p>
+        <div class="research-card-label">Open-Source Tools · MMA Community</div>
+        <div class="research-card-title">KilonovaSCORER — Real-time Kilonova Ranking for GW Follow-up</div>
+        <p>An open-source framework for scoring optical transient candidates against a kilonova model grid in real time, deployed into <a href="https://astro-trove.github.io/" target="_blank" style="color:var(--accent); text-decoration:none; border-bottom:1px solid rgba(126,184,247,0.3);">TROVE</a> (Tool for Rapid Object Vetting and Examination) — a community coordination platform for multimessenger follow-up. Uses ABC diagnostics and inverse-variance weighting to reject supernova contaminants within 3–4 days of a GW trigger under LSST ToO strategies. Validated on AT 2017gfo and SN 2025ulz.</p>
       </div>
       <div class="research-card research-accent-cv">
-        <div class="research-card-label">Computer Vision</div>
-        <div class="research-card-title">Transient Identification in Difference Imaging</div>
-        <p>Developed CNN classifiers for artifact removal and transient identification integrated into the S-PLUS Transient Extension Program (STEP). A second network detects electromagnetic counterparts to gravitational-wave events, incorporated into the DESGW search and discovery pipeline.</p>
+        <div class="research-card-label">Inference Tooling · SBI for Time-Domain</div>
+        <div class="research-card-title">Simulation-Based Inference for Kilonova & Transient Parameter Estimation</div>
+        <p>Building amortized inference pipelines — Amortized Neural Posterior Estimation, Truncated Sequential NPE, Neural Likelihood Estimation — that reduce kilonova parameter inference from hours of MCMC to seconds. Validated on AT 2017gfo and applied to GRB 230307A multi-wavelength data. Symbolic regression methods have extracted analytic scaling laws from BNS merger simulations (NeurIPS 2025).</p>
       </div>
       <div class="research-card research-accent-bbh">
-        <div class="research-card-label">Binary Black Holes</div>
-        <div class="research-card-title">EM Follow-Up of BBH Mergers in AGN Disks</div>
-        <p>Leading analysis of the LIGO/Virgo/KAGRA BBH merger candidate S231206cc, investigating potential electromagnetic emissions from merger remnant interactions with AGN accretion disks. Testing flare emission models by McKernan, Tagawa, and Rodríguez-Ramírez to probe detectability of EM counterparts.</p>
+        <div class="research-card-label">EM Follow-up · BBH Mergers in AGN Disks</div>
+        <div class="research-card-title">Optical Follow-up of Binary Black Hole Merger Candidates S231206cc & S240413p</div>
+        <p>Leading multi-epoch optical and spectroscopic campaigns for LIGO/Virgo/KAGRA BBH merger candidates, testing whether remnant interactions with AGN accretion disks produce detectable EM emission. Published in <em>Physical Review D</em> (2025) and arXiv (2026), these are among the most comprehensive optical datasets yet for BBH EM counterpart searches.</p>
       </div>
       <div class="research-card research-accent-llm">
-        <div class="research-card-label">Natural Language Processing</div>
-        <div class="research-card-title">BERTimbau for Portuguese Medical Text Classification</div>
-        <p>During internship at LNCC, developed a BERTimbau-based algorithm classifying medical condition phrases in Portuguese. Built custom data pipelines using Google APIs and Regex to gather and filter YouTube comment data, bridging NLP and health informatics.</p>
+        <div class="research-card-label">LAB-IA · CBPF &amp; COIN Collaborations</div>
+        <div class="research-card-title">ADSS: Intelligent Agents &amp; Physical Modeling for the LSST Era</div>
+        <p>As part of the CBPF LAB-IA and the <a href="https://cosmostatistics-initiative.org/" target="_blank" style="color:var(--gold); text-decoration:none; border-bottom:1px solid rgba(245,200,66,0.3);">COIN</a> (Cosmostatistics Initiative) worldwide network, developing the Astronomical Data Smart System — AI-powered autonomous agents for real-time LSST alert triage, LLM-assisted astrophysical reasoning, and fast SBI physical modeling targeting kilonovae, TDEs, FBOTs, and orphan GRB afterglows across 10 million nightly alerts.</p>
       </div>
     </div>
   </section>
@@ -898,7 +939,7 @@
     </div>
 
     <div style="display:flex; gap:0.75rem; margin-bottom:2rem; flex-wrap:wrap;" class="fade-in">
-      <a href="https://scholar.google.com/citations?user=PS_CX0AAAAAJ" target="_blank" class="btn btn-ghost" style="font-size:0.75rem; padding:0.5rem 1.1rem;">Google Scholar</a>
+      <a href="https://scholar.google.com/citations?user=a-oepmsAAAAJ" target="_blank" class="btn btn-ghost" style="font-size:0.75rem; padding:0.5rem 1.1rem;">Google Scholar</a>
       <a href="https://www.researchgate.net/profile/Phelipe-Darc" target="_blank" class="btn btn-ghost" style="font-size:0.75rem; padding:0.5rem 1.1rem;">ResearchGate</a>
       <a href="https://orcid.org/0000-0001-8833-474X" target="_blank" class="btn btn-ghost" style="font-size:0.75rem; padding:0.5rem 1.1rem;">ORCID</a>
     </div>
@@ -1250,7 +1291,7 @@
           <span class="contact-link-icon">LinkedIn</span>
           <span class="contact-link-val">linkedin.com/in/phelipedarc</span>
         </a>
-        <a href="https://scholar.google.com/citations?user=PS_CX0AAAAAJ" target="_blank" class="contact-link">
+        <a href="https://scholar.google.com/citations?user=a-oepmsAAAAJ" target="_blank" class="contact-link">
           <span class="contact-link-icon">Scholar</span>
           <span class="contact-link-val">Google Scholar Profile</span>
         </a>
