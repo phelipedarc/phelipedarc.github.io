@@ -822,11 +822,11 @@
           <div class="profile-ring"></div>
           <div class="profile-ring-2"></div>
           <div class="profile-img-wrap">
-            <img src="images/profilephe2.jpg" alt="Phelipe Darc" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">
+            <span class="profile-initials">PD</span>
           </div>
           <div class="orbit-stat s1">CBPF · RIO DE JANEIRO</div>
-          <div class="orbit-stat s2">ORCID 0000-0001-8833-474X</div>
-          <div class="orbit-stat s3">NEURIPS 2023 / 2024</div>
+          <div class="orbit-stat s2">CIERA · NORTHWESTERN 2025–26</div>
+          <div class="orbit-stat s3">NEURIPS 2023 / 2024 / 2025</div>
         </div>
       </div>
     </div>
@@ -846,11 +846,11 @@
 
     <div class="stat-row fade-in">
       <div class="stat-item">
-        <div class="stat-num">10+</div>
+        <div class="stat-num">13+</div>
         <div class="stat-label">Publications</div>
       </div>
       <div class="stat-item">
-        <div class="stat-num">2</div>
+        <div class="stat-num">3</div>
         <div class="stat-label">NeurIPS Papers</div>
       </div>
       <div class="stat-item">
@@ -898,8 +898,8 @@
     </div>
 
     <div style="display:flex; gap:0.75rem; margin-bottom:2rem; flex-wrap:wrap;" class="fade-in">
-      <a href="https://scholar.google.com/citations?user=a-oepmsAAAAJ&hl" target="_blank" class="btn btn-ghost" style="font-size:0.75rem; padding:0.5rem 1.1rem;">Google Scholar</a>
-      <a href="https://www.researchgate.net/profile/Phelipe-Darc/research" target="_blank" class="btn btn-ghost" style="font-size:0.75rem; padding:0.5rem 1.1rem;">ResearchGate</a>
+      <a href="https://scholar.google.com/citations?user=PS_CX0AAAAAJ" target="_blank" class="btn btn-ghost" style="font-size:0.75rem; padding:0.5rem 1.1rem;">Google Scholar</a>
+      <a href="https://www.researchgate.net/profile/Phelipe-Darc" target="_blank" class="btn btn-ghost" style="font-size:0.75rem; padding:0.5rem 1.1rem;">ResearchGate</a>
       <a href="https://orcid.org/0000-0001-8833-474X" target="_blank" class="btn btn-ghost" style="font-size:0.75rem; padding:0.5rem 1.1rem;">ORCID</a>
     </div>
 
@@ -910,7 +910,25 @@
 
     <div class="pub-list fade-in">
 
-      <!-- 2026 first-author -->
+      <!-- 2026 first-author KilonovaSCORER PASP -->
+      <div class="pub-item" style="border-left: 2px solid rgba(126,184,247,0.4); padding-left:1rem; margin-left:-1rem;">
+        <div class="pub-year">2026</div>
+        <div class="pub-content">
+          <div class="pub-venue" style="display:flex; align-items:center; gap:0.6rem;">
+            PASP · Submitted
+            <span style="font-family:var(--mono); font-size:0.58rem; background:rgba(126,184,247,0.12); border:1px solid rgba(126,184,247,0.25); color:var(--accent); padding:0.15rem 0.5rem; border-radius:1px; letter-spacing:0.1em;">First Author</span>
+            <span style="font-family:var(--mono); font-size:0.58rem; background:rgba(245,200,66,0.1); border:1px solid rgba(245,200,66,0.25); color:var(--gold); padding:0.15rem 0.5rem; border-radius:1px; letter-spacing:0.1em;">CIERA / Northwestern</span>
+          </div>
+          <div class="pub-title">KilonovaSCORER: Real-time Ranking of Optical Transient Candidates for Gravitational-Wave Follow-up</div>
+          <div class="pub-authors"><strong>P. Darc</strong> et al. &nbsp;·&nbsp; <span style="color:var(--dim); font-size:0.82rem;">Developed at CIERA, Northwestern University</span></div>
+          <div style="font-size:0.8rem; color:var(--dim); line-height:1.6; margin:0.6rem 0 0.7rem; border-left:1px solid var(--border2); padding-left:0.9rem;">
+            Open-source framework for scoring and ranking kilonova candidates from sparse early-time multi-band photometry. Uses per-observation metrics P<sub>tail,KNe</sub> and P<sub>near,KNe</sub> aggregated via inverse-variance weighting in logit space, with a sequential ABC diagnostic for temporal consistency. Validated on AT 2017gfo and SN 2025ulz; median supernova contaminant scores fall to zero by 3–4 d post-trigger under LSST ToO simulations while kilonova medians remain ≥ 0.4.
+          </div>
+          <a href="https://github.com/phelipedarc/KilonovaSCORER/tree/main" target="_blank" class="pub-link">GitHub · phelipedarc/KilonovaSCORER</a>
+        </div>
+      </div>
+
+      <!-- 2026 first-author BBH AGN S240413p -->
       <div class="pub-item" style="border-left: 2px solid rgba(126,184,247,0.4); padding-left:1rem; margin-left:-1rem;">
         <div class="pub-year">2026</div>
         <div class="pub-content">
@@ -982,7 +1000,7 @@
         </div>
       </div>
 
-      <!-- 2025 NeurIPS -->
+      <!-- 2025 NeurIPS symbolic regression -->
       <div class="pub-item" style="border-left: 2px solid rgba(126,184,247,0.4); padding-left:1rem; margin-left:-1rem;">
         <div class="pub-year">2025</div>
         <div class="pub-content">
@@ -990,9 +1008,10 @@
             NeurIPS 2025 · ML and Physical Sciences Workshop
             <span style="font-family:var(--mono); font-size:0.58rem; background:rgba(126,184,247,0.12); border:1px solid rgba(126,184,247,0.25); color:var(--accent); padding:0.15rem 0.5rem; border-radius:1px; letter-spacing:0.1em;">First Author</span>
           </div>
-          <div class="pub-title">Simulation-Based Inference for Astrophysical Transients (Camera-Ready)</div>
-          <div class="pub-authors"><strong>P. Darc</strong> et al.</div>
-          <a href="files/Pdarc_Neurips_2025_SR_camera_ready.pdf" class="pub-link">Workshop Paper</a>
+          <div class="pub-title">Symbolic Regression Is All You Need: From Simulations to Scaling Laws in Binary Neutron Star Mergers</div>
+          <div class="pub-authors"><strong>P. Darc</strong>, Bom C.R., Kilpatrick C., Fraga B.M.O., Teixeira G.S.M.</div>
+          <a href="https://arxiv.org/abs/2511.08784" target="_blank" class="pub-link">arXiv:2511.08784</a>
+          &nbsp;&nbsp;<a href="files/Pdarc_Neurips_2025_SR_camera_ready.pdf" class="pub-link">Camera-Ready PDF</a>
         </div>
       </div>
 
@@ -1019,9 +1038,9 @@
             NeurIPS 2024 · ML and Physical Sciences Workshop
             <span style="font-family:var(--mono); font-size:0.58rem; background:rgba(126,184,247,0.12); border:1px solid rgba(126,184,247,0.25); color:var(--accent); padding:0.15rem 0.5rem; border-radius:1px; letter-spacing:0.1em;">First Author</span>
           </div>
-          <div class="pub-title">Multi-Wavelength Kilonova Modeling with Truncated Sequential Neural Posterior Estimation — GRB 230307A Afterglow</div>
-          <div class="pub-authors"><strong>P. Darc</strong> et al.</div>
-          <a href="files/GRBafterglow_modellin_neurips23.pdf" class="pub-link">Workshop Paper</a>
+          <div class="pub-title">Multi-Wavelength Analysis of Kilonova Associated with GRB 230307A: Accelerated Parameter Estimation and Model Selection Through Likelihood-Free Inference</div>
+          <div class="pub-authors"><strong>P. Darc</strong>, Bom C.R., Teixeira G.S.M., Kilpatrick C., Sherman N.</div>
+          <a href="files/GRBafterglow_modellin_neurips23.pdf" class="pub-link">Workshop Paper PDF</a>
         </div>
       </div>
 
@@ -1107,9 +1126,18 @@
         <div class="cv-entry">
           <div class="cv-line" style="background: rgba(167,139,250,0.4);"></div>
           <div>
+            <div class="cv-date">NEURIPS 2025</div>
+            <div class="cv-role">Symbolic Regression Is All You Need: From Simulations to Scaling Laws in Binary Neutron Star Mergers</div>
+            <div class="cv-place">ML and the Physical Sciences Workshop · San Diego, USA</div>
+          </div>
+        </div>
+
+        <div class="cv-entry">
+          <div class="cv-line" style="background: rgba(167,139,250,0.4);"></div>
+          <div>
             <div class="cv-date">NEURIPS 2024</div>
-            <div class="cv-role">ML and the Physical Sciences Workshop</div>
-            <div class="cv-place">Vancouver, Canada</div>
+            <div class="cv-role">Multi-Wavelength Analysis of Kilonova Associated with GRB 230307A</div>
+            <div class="cv-place">ML and the Physical Sciences Workshop · Vancouver, Canada</div>
           </div>
         </div>
 
@@ -1117,14 +1145,23 @@
           <div class="cv-line" style="background: rgba(167,139,250,0.4);"></div>
           <div>
             <div class="cv-date">NEURIPS 2023</div>
-            <div class="cv-role">ML and the Physical Sciences Workshop</div>
-            <div class="cv-place">New Orleans, USA</div>
+            <div class="cv-role">Kilonova Spectral Inverse Modelling with Simulation-Based Inference</div>
+            <div class="cv-place">ML and the Physical Sciences Workshop · New Orleans, USA</div>
           </div>
         </div>
       </div>
 
       <div>
         <div class="cv-col-title">Experience</div>
+
+        <div class="cv-entry">
+          <div class="cv-line" style="background: rgba(126,184,247,0.5);"></div>
+          <div>
+            <div class="cv-date">DEC 2025 — MAY 2026</div>
+            <div class="cv-role">Visiting Researcher</div>
+            <div class="cv-place">CIERA · Northwestern University · Evanston, IL, USA<br>Developed and submitted KilonovaSCORER to PASP — real-time kilonova ranking framework for GW follow-up using ABC diagnostics and LSST ToO simulations</div>
+          </div>
+        </div>
 
         <div class="cv-entry">
           <div class="cv-line" style="background: rgba(52,211,153,0.4);"></div>
