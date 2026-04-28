@@ -840,7 +840,7 @@
           <div style="position:absolute; inset:0; animation:spinSlow 12s linear infinite;">
             <div style="position:absolute; top:-6px; left:50%; transform:translateX(-50%);">
               <div style="width:12px; height:12px; border-radius:50%; background:radial-gradient(circle, #e8f4ff 0%, #7eb8f7 50%, rgba(126,184,247,0.2) 100%); box-shadow:0 0 10px 3px rgba(126,184,247,0.6), 0 0 20px 6px rgba(126,184,247,0.2);"></div>
-              <div style="font-family:var(--mono); font-size:0.42rem; color:rgba(126,184,247,0.7); letter-spacing:0.08em; text-align:center; margin-top:3px; white-space:nowrap;">NS</div>
+              <!-- <div style="font-family:var(--mono); font-size:0.42rem; color:rgba(126,184,247,0.7); letter-spacing:0.08em; text-align:center; margin-top:3px; white-space:nowrap;">NS</div> -->
             </div>
           </div>
 
@@ -853,7 +853,7 @@
                 <!-- BH event horizon -->
                 <div style="width:10px; height:10px; border-radius:50%; background:#0a0d18; border:1.5px solid rgba(245,200,66,0.7); box-shadow:0 0 8px 2px rgba(245,200,66,0.35), inset 0 0 4px rgba(0,0,0,0.9); position:relative; z-index:1;"></div>
               </div>
-              <div style="font-family:var(--mono); font-size:0.42rem; color:rgba(245,200,66,0.6); letter-spacing:0.08em; text-align:center; margin-top:2px; white-space:nowrap;">BH</div>
+              <!-- <div style="font-family:var(--mono); font-size:0.42rem; color:rgba(245,200,66,0.6); letter-spacing:0.08em; text-align:center; margin-top:2px; white-space:nowrap;">BH</div> -->
             </div>
           </div>
 
@@ -864,7 +864,7 @@
                 <div style="position:absolute; width:20px; height:7px; border-radius:50%; border:1px solid rgba(167,139,250,0.45); box-shadow:0 0 6px rgba(167,139,250,0.25);"></div>
                 <div style="width:9px; height:9px; border-radius:50%; background:#0a0d18; border:1.5px solid rgba(167,139,250,0.65); box-shadow:0 0 8px 2px rgba(167,139,250,0.3), inset 0 0 4px rgba(0,0,0,0.9); position:relative; z-index:1;"></div>
               </div>
-              <div style="font-family:var(--mono); font-size:0.42rem; color:rgba(167,139,250,0.6); letter-spacing:0.08em; text-align:center; margin-top:2px; white-space:nowrap;">BH</div>
+              <!-- <div style="font-family:var(--mono); font-size:0.42rem; color:rgba(167,139,250,0.6); letter-spacing:0.08em; text-align:center; margin-top:2px; white-space:nowrap;">BH</div> -->
             </div>
           </div>
 
@@ -898,10 +898,10 @@
         <div class="stat-num">3</div>
         <div class="stat-label">NeurIPS Papers</div>
       </div>
-      <div class="stat-item">
+      <!-- <div class="stat-item">
         <div class="stat-num">3</div>
         <div class="stat-label">Observatories</div>
-      </div>
+      </div> -->
       <div class="stat-item">
         <div class="stat-num">GW</div>
         <div class="stat-label">Multi-Messenger</div>
@@ -912,27 +912,35 @@
       <div class="research-card research-accent-sbi">
         <div class="research-card-label">Open-Source Tools · MMA Community</div>
         <div class="research-card-title">KilonovaSCORER — Real-time Kilonova Ranking for GW Follow-up</div>
-        <p>An open-source framework for scoring optical transient candidates against a kilonova model grid in real time, deployed into <a href="https://astro-trove.github.io/" target="_blank" style="color:var(--accent); text-decoration:none; border-bottom:1px solid rgba(126,184,247,0.3);">TROVE</a> (Tool for Rapid Object Vetting and Examination) — a community coordination platform for multimessenger follow-up. Uses ABC diagnostics and inverse-variance weighting to reject supernova contaminants within 3–4 days of a GW trigger under LSST ToO strategies. Validated on AT 2017gfo and SN 2025ulz.</p>
+        <p>An open-source framework for scoring optical transient candidates against a kilonova model grid in real time, deployed into <a href="https://astro-trove.github.io/" target="_blank" style="color:var(--accent); text-decoration:none; border-bottom:1px solid rgba(126,184,247,0.3);">TROVE</a> (Tool for Rapid Object Vetting and Examination) — a community coordination platform for multimessenger follow-up. The framework enables rapid candidate vetting using simulation-based statistical diagnostics, making it suitable for alert-driven environments such as LSST brokers and gravitational-wave follow-up infrastructures.</p>
       </div>
       <div class="research-card research-accent-cv">
-        <div class="research-card-label">Inference Tooling · SBI for Time-Domain</div>
+        <div class="research-card-label">Neural Posterior Estimation  · SBI for Time-Domain</div>
         <div class="research-card-title">Simulation-Based Inference for Kilonova & Transient Parameter Estimation</div>
-        <p>Building amortized inference pipelines — Amortized Neural Posterior Estimation, Truncated Sequential NPE, Neural Likelihood Estimation — that reduce kilonova parameter inference from hours of MCMC to seconds. Validated on AT 2017gfo and applied to GRB 230307A multi-wavelength data. Symbolic regression methods have extracted analytic scaling laws from BNS merger simulations (NeurIPS 2025).</p>
+        <p>Building amortized Bayesian pipelines using Neural Posterior Estimation, Neural Likelihood Estimation, and sequential likelihood-free methods to rapidly infer physical parameters from spectral and light curve data. Validated on AT2017gfo and GRB230307A. </p>
+
       </div>
       <div class="research-card research-accent-bbh">
         <div class="research-card-label">EM Follow-up · BBH Mergers in AGN Disks</div>
-        <div class="research-card-title">Optical Follow-up of Binary Black Hole Merger Candidates S231206cc & S240413p</div>
-        <p>Leading multi-epoch optical and spectroscopic campaigns for LIGO/Virgo/KAGRA BBH merger candidates, testing whether remnant interactions with AGN accretion disks produce detectable EM emission. Published in <em>Physical Review D</em> (2025) and arXiv (2026), these are among the most comprehensive optical datasets yet for BBH EM counterpart searches.</p>
+        <div class="research-card-title">Electromagnetic Searches for BBH Mergers in Active Galactic Nuclei</div>
+        <p>Leading optical and spectroscopic follow-up of LIGO/Virgo/KAGRA binary black hole merger candidates (S231206cc & S240413p), testing whether mergers embedded in AGN accretion disks generate observable electromagnetic flares. This work combines transient discovery pipelines, physical modeling, BBH simulations and observational campaigns to probe one of the most promising channels for finding EM counterpart to BBH event ("Dark Flares").</p>
       </div>
       <div class="research-card" style="border-top: 2px solid var(--gold);">
-        <div class="research-card-label">LAB-IA · CBPF Collaboration</div>
-        <div class="research-card-title">ADSS: Intelligent Agents & Physical Modeling for the LSST Era</div>
-        <p>As part of the CBPF LAB-IA group, developing the Astronomical Data Smart System — AI-powered autonomous agents for real-time LSST alert triage (up to 10 million alerts/night), LLM-assisted astrophysical reasoning, and fast SBI physical modeling targeting kilonovae, TDEs, FBOTs, ultra-stripped supernovae, and orphan GRB afterglows.</p>
+        <div class="research-card-label">LAB-IA · CBPF </div>
+        <div class="research-card-title">ADSS & AI-Scope — Intelligent Infrastructure for Astronomy</div>
+        <p>As part of the CBPF LAB-IA group, developing the Astronomical Data Smart System, a next-generation platform for real-time transient discovery, alert filtering, and rapid physical inference in the LSST era. In parallel, contributing to <a href="https://ai-scope.cbpf.br/" target="_blank" style="color:var(--gold); text-decoration:none; border-bottom:1px solid rgba(255,215,0,0.3);">AI-Scope</a>, a community portal tailored for astronomers to query major sky surveys, access databases, explore catalogs, and build AI workflows for data analysis. Together, these tools bridge modern artificial intelligence with practical research infrastructure for the astronomy community.</p>
       </div>
+      
+      <div class="research-card" style="border-top: 2px solid var(--accent2);">
+        <div class="research-card-label">GW Follow-up · Open-Source Pipeline</div>
+        <div class="research-card-title">TEGLON — A Pixel-Level Gravitational-Wave Search and Analysis Pipeline</div>
+        <p> <em>TEGLON</em>: an open-source Python framework for GW follow-up. TEGLON ingests LVK HEALPix sky maps, applies galaxy-catalog completeness weighting, redistributes localization probability, and generates optimized telescope tiling plans. The pipeline supports both rapid target-of-opportunity campaigns and detectability analyses, with extensions for binary black hole events and AGN-host prioritization.</p>
+      </div>
+      
       <div class="research-card" style="border-top: 2px solid var(--accent3); grid-column: 1 / -1;">
-        <div class="research-card-label">COIN · Cosmostatistics Initiative — Worldwide Collaboration</div>
-        <div class="research-card-title">Data-Driven Astrophysics with the <a href="https://cosmostatistics-initiative.org/" target="_blank" style="color:var(--accent3); text-decoration:none; border-bottom:1px solid rgba(52,211,153,0.3);">Cosmostatistics Initiative</a></div>
-        <p>Member of COIN — a worldwide interdisciplinary network building data-driven solutions across astrophysics. Current COIN contribution: the <em>SAGUI</em> framework for SED-based segmentation of multi-band galaxy images, applied to JWST/JADES data in GOODS-South (arXiv 2026). COIN projects span statistical methodology, machine learning, and open-source tool development for the global astronomy community.</p>
+        <div class="research-card-label">COIN · Cosmostatistics Initiative </div>
+        <div class="research-card-title">Data-Driven Astrophysics with the <a href="https://cosmostatistics-initiative.org/" target="_blank" style="color:var(--accent3); text-decoration:none; border-bottom:1px solid rgba(52,211,153,0.3);">Cosmostatistics Initiative (COIN)</a></div>
+        <p>Member of COIN — a worldwide interdisciplinary network building data-driven solutions across astrophysics. Current COIN contributions include: i) <em>SAGUI</em>, SED-based segmentation of multi-band galaxy images; ii) an archival search for intermediate-mass black hole tidal disruption events in 62,189 elliptical galaxies using ZTF. COIN projects span statistical methodology, machine learning, and open-source tool development for the global astronomy community.</p>
       </div>
     </div>
   </section>
