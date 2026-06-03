@@ -85,9 +85,26 @@
     letter-spacing: 0.12em;
     text-transform: uppercase;
     transition: color 0.2s;
+    position: relative;
+    padding-bottom: 2px;
   }
 
   .nav-links a:hover { color: var(--text); }
+
+  /* Active nav state */
+  .nav-links a.nav-active {
+    color: var(--accent);
+  }
+  .nav-links a.nav-active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.6;
+  }
 
   .nav-cta {
     font-family: var(--mono);
@@ -318,15 +335,6 @@
   .orbit-stat.s2 { bottom: 30px; right: -50px; }
   .orbit-stat.s3 { bottom: -8px; left: 10px; }
 
-  .orbit-dot {
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: var(--accent2);
-    box-shadow: 0 0 6px var(--accent2);
-  }
-
   @keyframes spinSlow { to { transform: rotate(360deg); } }
 
   /* SECTION BASE */
@@ -363,55 +371,350 @@
     background: var(--border);
   }
 
-  /* RESEARCH GRID */
-  .research-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5px;
-    background: var(--border);
-    border: 1px solid var(--border);
-  }
+  /* ─── POKÉMON-STYLE RESEARCH CARDS ─── */
 
-  .research-card {
-    background: var(--bg);
-    padding: 2rem 2.2rem;
-    transition: background 0.2s;
+  /* Real Pokémon card ratio: 63×88mm ≈ 1:1.396 */
+  .poke-card {
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
     cursor: default;
+    transition: transform 0.35s cubic-bezier(.22,.68,0,1.2);
+    will-change: transform;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
   }
 
-  .research-card:hover { background: var(--bg3); }
+  .poke-card:hover { transform: translateY(-8px) scale(1.015); }
 
-  .research-card-label {
+  /* Holographic shimmer */
+  .poke-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: conic-gradient(
+      from var(--holo-angle, 120deg) at var(--holo-x, 50%) var(--holo-y, 40%),
+      rgba(126,184,247,0.0)  0deg,
+      rgba(167,139,250,0.10) 60deg,
+      rgba(52,211,153,0.07)  120deg,
+      rgba(245,200,66,0.06)  180deg,
+      rgba(126,184,247,0.09) 240deg,
+      rgba(167,139,250,0.0)  360deg
+    );
+    opacity: 0;
+    transition: opacity 0.6s;
+    pointer-events: none;
+    z-index: 2;
+    mix-blend-mode: screen;
+  }
+
+  .poke-card:hover::before { opacity: 0.3; }
+
+  /* Border glow */
+  .poke-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 1.5px solid rgba(255,255,255,0.13);
+    pointer-events: none;
+    z-index: 3;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+
+  .poke-card:hover::after {
+    border-color: var(--card-glow, rgba(126,184,247,0.55));
+    box-shadow: 0 0 32px -4px var(--card-glow, rgba(126,184,247,0.3)),
+                inset 0 0 24px rgba(0,0,0,0.45);
+  }
+
+  /* Card background */
+  .poke-card-inner {
+    background: var(--card-bg, #0b1020);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── TOP STRIP: type + name + HP ── */
+  .poke-card-header {
+    padding: 0.7rem 0.85rem 0.55rem;
+    background: var(--card-header-bg);
+    position: relative;
+    flex-shrink: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .poke-card-header::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -55deg,
+      transparent,
+      transparent 5px,
+      rgba(255,255,255,0.016) 5px,
+      rgba(255,255,255,0.016) 6px
+    );
+    pointer-events: none;
+  }
+
+  .poke-card-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.3rem;
+  }
+
+  .poke-card-type {
     font-family: var(--mono);
-    font-size: 0.62rem;
-    letter-spacing: 0.18em;
-    color: var(--dim);
+    font-size: 0.52rem;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    margin-bottom: 1rem;
+    color: var(--card-type-color);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
   }
 
-  .research-card-title {
+  .poke-card-type::before {
+    content: '';
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--card-type-color);
+    opacity: 0.85;
+    flex-shrink: 0;
+  }
+
+  .poke-card-hp { display: none; }
+
+  .poke-card-name {
     font-family: var(--serif);
-    font-size: 1.2rem;
+    font-size: 0.92rem;
     font-weight: 500;
     color: var(--text);
-    margin-bottom: 0.8rem;
-    line-height: 1.3;
+    line-height: 1.25;
   }
 
-  .research-card p {
-    font-size: 0.88rem;
+  /* ── ART ZONE: ~55% of card height ── */
+  .poke-card-art {
+    flex: 0 0 200px;
+    position: relative;
+    overflow: hidden;
+    background: var(--card-art-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 2px solid rgba(255,255,255,0.07);
+  }
+
+  /* Inner beveled frame like real cards */
+  .poke-card-art::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .poke-card-art svg {
+    width: 100%;
+    height: 100%;
+    opacity: 0.72;
+    transition: opacity 0.35s, transform 0.35s;
+  }
+
+  .poke-card:hover .poke-card-art svg {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+
+  /* ── BODY ── */
+  .poke-card-body {
+    padding: 0.7rem 0.95rem 0.55rem;
+    flex: 1;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .poke-card-body p {
+    font-size: 0.74rem;
     color: var(--muted);
-    line-height: 1.75;
+    line-height: 1.62;
+    margin: 0;
   }
 
-  .research-accent-sbi { border-top: 2px solid var(--accent); }
-  .research-accent-cv { border-top: 2px solid var(--accent2); }
-  .research-accent-bbh { border-top: 2px solid var(--accent3); }
-  .research-accent-llm { border-top: 2px solid var(--gold); }
+  /* ── STATS BAR ── */
+  .poke-card-stats {
+    padding: 0.45rem 0.85rem 0.6rem;
+    display: flex;
+    gap: 0.9rem;
+    flex-shrink: 0;
+  }
+
+  .poke-stat { display: flex; flex-direction: column; gap: 0.1rem; }
+
+  .poke-stat-val {
+    font-family: var(--mono);
+    font-size: 0.64rem;
+    color: var(--card-type-color);
+    letter-spacing: 0.04em;
+  }
+
+  .poke-stat-label {
+    font-family: var(--mono);
+    font-size: 0.48rem;
+    letter-spacing: 0.14em;
+    color: var(--dim);
+    text-transform: uppercase;
+  }
+
+  /* ── FEATURED (legendary) card — full-width, landscape ── */
+  .poke-featured {
+    aspect-ratio: unset !important;
+    --card-glow: rgba(126,184,247,0.65);
+    --card-header-bg: linear-gradient(135deg, #0c1828 0%, #0e2040 100%);
+    --card-art-bg: #050d1a;
+    --card-type-color: #7eb8f7;
+  }
+
+  .poke-featured .poke-card-art {
+    flex: 0 0 220px;
+  }
+
+  .legendary-badge {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.85rem;
+    font-family: var(--mono);
+    font-size: 0.5rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: rgba(245,200,66,0.1);
+    border: 1px solid rgba(245,200,66,0.35);
+    padding: 0.18rem 0.55rem;
+    border-radius: 2px;
+    z-index: 4;
+  }
+
+  /* ── GRID: 3-up for portrait cards ── */
+  .poke-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.4rem;
+    margin-top: 1.2rem;
+    align-items: stretch;
+  }
+
+  /* COIN card spans full width */
+  .poke-coin {
+    grid-column: 1 / -1;
+    aspect-ratio: unset !important;
+    --card-glow: rgba(94,234,212,0.55);
+    --card-header-bg: linear-gradient(135deg, #081818 0%, #0a2020 100%);
+    --card-art-bg: #060f0f;
+    --card-type-color: #5eead4;
+  }
+
+  .poke-coin .poke-card-art { flex: 0 0 140px; }
+
+  /* Color themes */
+  .poke-purple {
+    --card-glow: rgba(167,139,250,0.55);
+    --card-header-bg: linear-gradient(135deg, #110e22 0%, #18103a 100%);
+    --card-art-bg: #0b0917;
+    --card-type-color: #a78bfa;
+  }
+
+  .poke-green {
+    --card-glow: rgba(52,211,153,0.5);
+    --card-header-bg: linear-gradient(135deg, #081912 0%, #0c221a 100%);
+    --card-art-bg: #060f0c;
+    --card-type-color: #34d399;
+  }
+
+  .poke-gold {
+    --card-glow: rgba(245,200,66,0.52);
+    --card-header-bg: linear-gradient(135deg, #181208 0%, #221800 100%);
+    --card-art-bg: #100e06;
+    --card-type-color: #f5c842;
+  }
+
+  .poke-violet {
+    --card-glow: rgba(167,139,250,0.5);
+    --card-header-bg: linear-gradient(135deg, #130f20 0%, #1c1038 100%);
+    --card-art-bg: #0c0918;
+    --card-type-color: #a78bfa;
+  }
+
+  .poke-teal {
+    --card-glow: rgba(94,234,212,0.5);
+    --card-header-bg: linear-gradient(135deg, #081818 0%, #0a2020 100%);
+    --card-art-bg: #060f0f;
+    --card-type-color: #5eead4;
+  }
 
   /* PUBLICATIONS */
   .pub-list { display: flex; flex-direction: column; gap: 0; }
+
+  /* ─── PUBLICATION FILTERS ─── */
+  .pub-filters {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .pub-filter-btn {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.85rem;
+    border: 1px solid var(--border2);
+    border-radius: 2px;
+    color: var(--dim);
+    background: transparent;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+  }
+
+  .pub-filter-btn:hover {
+    color: var(--muted);
+    border-color: rgba(255,255,255,0.2);
+  }
+
+  .pub-filter-btn.active {
+    color: var(--accent);
+    border-color: rgba(126, 184, 247, 0.4);
+    background: rgba(126, 184, 247, 0.08);
+  }
+
+  /* pub count badge inside button */
+  .pub-filter-btn .count {
+    font-size: 0.58rem;
+    opacity: 0.65;
+    margin-left: 0.3em;
+  }
+
+  /* hidden pub item */
+  .pub-item[hidden] { display: none; }
+
+  /* no-results message */
+  #pub-empty {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+    padding: 2rem 0;
+    display: none;
+  }
 
   .pub-item {
     display: grid;
@@ -419,7 +722,7 @@
     gap: 1.5rem;
     padding: 2rem 0;
     border-bottom: 1px solid var(--border);
-    transition: background 0.15s;
+    transition: opacity 0.2s;
   }
 
   .pub-item:first-child { border-top: 1px solid var(--border); }
@@ -623,7 +926,6 @@
     align-items: center;
     gap: 1rem;
     text-decoration: none;
-    group: true;
   }
 
   .contact-link-icon {
@@ -756,8 +1058,6 @@
     margin-bottom: 3rem;
   }
 
-  .stat-item {}
-
   .stat-num {
     font-family: var(--serif);
     font-size: 2.5rem;
@@ -783,10 +1083,10 @@
 <nav>
   <a href="#" class="nav-logo">Phelipe Darc</a>
   <ul class="nav-links">
-    <li><a href="#research">Research</a></li>
-    <li><a href="#publications">Publications</a></li>
-    <li><a href="#cv">CV</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#research" data-section="research">Research</a></li>
+    <li><a href="#publications" data-section="publications">Publications</a></li>
+    <li><a href="#cv" data-section="cv">CV</a></li>
+    <li><a href="#contact" data-section="contact">Contact</a></li>
     <li><a href="files/pheCV.pdf" class="nav-cta">Download CV</a></li>
   </ul>
 </nav>
@@ -820,62 +1120,39 @@
 
       <div class="hero-visual">
         <div class="profile-orbit" style="width:380px; height:380px;">
-
-          <!-- Outer orbit ring for black holes -->
           <div style="position:absolute; inset:-20px; border-radius:50%; border:1px solid rgba(255,255,255,0.06); animation:spinSlow 50s linear infinite;"></div>
-
-          <!-- Middle orbit ring for neutron star -->
           <div class="profile-ring"></div>
           <div class="profile-ring-2"></div>
-
-          <!-- Profile image -->
-          <!-- <div class="profile-img-wrap">
-            <span class="profile-initials">PD</span>
-          </div> -->
           <div class="profile-img-wrap">
             <img src="images/profilephe2.jpg" alt="Phelipe Darc" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">
           </div>
-
-          <!-- Neutron star — glowing blue-white, fast orbit -->
           <div style="position:absolute; inset:0; animation:spinSlow 12s linear infinite;">
             <div style="position:absolute; top:-6px; left:50%; transform:translateX(-50%);">
               <div style="width:12px; height:12px; border-radius:50%; background:radial-gradient(circle, #e8f4ff 0%, #7eb8f7 50%, rgba(126,184,247,0.2) 100%); box-shadow:0 0 10px 3px rgba(126,184,247,0.6), 0 0 20px 6px rgba(126,184,247,0.2);"></div>
-              <!-- <div style="font-family:var(--mono); font-size:0.42rem; color:rgba(126,184,247,0.7); letter-spacing:0.08em; text-align:center; margin-top:3px; white-space:nowrap;">NS</div> -->
             </div>
           </div>
-
-          <!-- Black hole 1 — dark with accretion ring, medium orbit, clockwise -->
           <div style="position:absolute; inset:-20px; animation:spinSlow 28s linear infinite;">
             <div style="position:absolute; top:8px; left:50%; transform:translateX(-50%);">
-              <!-- Accretion disk -->
               <div style="position:relative; width:22px; height:22px; display:flex; align-items:center; justify-content:center;">
                 <div style="position:absolute; width:22px; height:8px; border-radius:50%; border:1px solid rgba(245,200,66,0.5); box-shadow:0 0 6px rgba(245,200,66,0.3);"></div>
-                <!-- BH event horizon -->
                 <div style="width:10px; height:10px; border-radius:50%; background:#0a0d18; border:1.5px solid rgba(245,200,66,0.7); box-shadow:0 0 8px 2px rgba(245,200,66,0.35), inset 0 0 4px rgba(0,0,0,0.9); position:relative; z-index:1;"></div>
               </div>
-              <!-- <div style="font-family:var(--mono); font-size:0.42rem; color:rgba(245,200,66,0.6); letter-spacing:0.08em; text-align:center; margin-top:2px; white-space:nowrap;">BH</div> -->
             </div>
           </div>
-
-          <!-- Black hole 2 — dark with accretion ring, outer orbit, counter-clockwise -->
           <div style="position:absolute; inset:-20px; animation:spinSlow 40s linear infinite reverse;">
             <div style="position:absolute; bottom:8px; left:50%; transform:translateX(-50%);">
               <div style="position:relative; width:20px; height:20px; display:flex; align-items:center; justify-content:center;">
                 <div style="position:absolute; width:20px; height:7px; border-radius:50%; border:1px solid rgba(167,139,250,0.45); box-shadow:0 0 6px rgba(167,139,250,0.25);"></div>
                 <div style="width:9px; height:9px; border-radius:50%; background:#0a0d18; border:1.5px solid rgba(167,139,250,0.65); box-shadow:0 0 8px 2px rgba(167,139,250,0.3), inset 0 0 4px rgba(0,0,0,0.9); position:relative; z-index:1;"></div>
               </div>
-              <!-- <div style="font-family:var(--mono); font-size:0.42rem; color:rgba(167,139,250,0.6); letter-spacing:0.08em; text-align:center; margin-top:2px; white-space:nowrap;">BH</div> -->
             </div>
           </div>
-
-          <!-- Info badges -->
           <div class="orbit-stat s1">CBPF · RIO DE JANEIRO</div>
           <div class="orbit-stat s2">CIERA · NORTHWESTERN 2025–26</div>
           <div class="orbit-stat s3">NEURIPS 2023 / 2024 / 2025</div>
         </div>
       </div>
     </div>
-
     <div class="scroll-hint">Scroll</div>
   </div>
 
@@ -890,58 +1167,450 @@
     </div>
 
     <div class="stat-row fade-in">
-      <div class="stat-item">
-        <div class="stat-num">13+</div>
-        <div class="stat-label">Publications</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">3</div>
-        <div class="stat-label">NeurIPS Papers</div>
-      </div>
-      <!-- <div class="stat-item">
-        <div class="stat-num">3</div>
-        <div class="stat-label">Observatories</div>
-      </div> -->
-      <div class="stat-item">
-        <div class="stat-num">GW</div>
-        <div class="stat-label">Multi-Messenger</div>
+      <div class="stat-item"><div class="stat-num">13+</div><div class="stat-label">Publications</div></div>
+      <div class="stat-item"><div class="stat-num">3</div><div class="stat-label">NeurIPS Papers</div></div>
+      <div class="stat-item"><div class="stat-num">GW</div><div class="stat-label">Multi-Messenger</div></div>
+    </div>
+
+    <!-- ══ LEGENDARY: KilonovaSCORER ══ -->
+    <div class="poke-card poke-featured fade-in" style="margin-bottom:1.4rem;">
+      <div class="legendary-badge">★ Legendary · Open Source</div>
+      <div class="poke-card-inner">
+        <div class="poke-card-header">
+          <div class="poke-card-top-row">
+            <div class="poke-card-type">Open-Source Tools · MMA Community</div>
+            <div class="poke-card-hp">HP 420</div>
+          </div>
+          <div class="poke-card-name">KilonovaSCORER — Real-time Kilonova Ranking for GW Follow-up</div>
+        </div>
+
+        <!-- Physically-ordered scene: inspiral → GW chirp (merger) → kilonova ejecta -->
+        <div class="poke-card-art">
+          <svg viewBox="0 0 900 220" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <rect width="900" height="220" fill="#040b16"/>
+            <!-- background stars -->
+            <circle cx="40"  cy="24"  r="0.9" fill="white" opacity="0.5"/>
+            <circle cx="120" cy="60"  r="0.7" fill="white" opacity="0.4"/>
+            <circle cx="300" cy="22"  r="0.8" fill="white" opacity="0.45"/>
+            <circle cx="610" cy="30"  r="0.9" fill="white" opacity="0.5"/>
+            <circle cx="700" cy="180" r="0.7" fill="white" opacity="0.35"/>
+            <circle cx="180" cy="190" r="0.8" fill="white" opacity="0.4"/>
+            <circle cx="860" cy="40"  r="1.0" fill="white" opacity="0.5"/>
+            <circle cx="560" cy="185" r="0.7" fill="white" opacity="0.35"/>
+
+            <!-- ── 1. NS–NS inspiral (left) ── -->
+            <ellipse cx="120" cy="110" rx="62" ry="40" stroke="#7eb8f7" stroke-width="0.5" opacity="0.12"/>
+            <ellipse cx="120" cy="110" rx="44" ry="28" stroke="#7eb8f7" stroke-width="0.6" opacity="0.2"/>
+            <ellipse cx="120" cy="110" rx="28" ry="18" stroke="#7eb8f7" stroke-width="0.8" opacity="0.35"/>
+            <ellipse cx="120" cy="110" rx="14" ry="9"  stroke="#7eb8f7" stroke-width="1.0" opacity="0.6"/>
+            <!-- two neutron stars on opposite sides of the orbit -->
+            <circle cx="106" cy="110" r="6" fill="#dce9ff" opacity="0.95"/>
+            <circle cx="106" cy="110" r="10" fill="#7eb8f7" opacity="0.12"/>
+            <circle cx="134" cy="110" r="6" fill="#dce9ff" opacity="0.95"/>
+            <circle cx="134" cy="110" r="10" fill="#7eb8f7" opacity="0.12"/>
+            <text x="120" y="178" text-anchor="middle" font-size="8" fill="#7eb8f7" opacity="0.55" font-family="monospace" letter-spacing="2">NS–NS INSPIRAL</text>
+
+            <!-- arrow into waveform -->
+            <line x1="190" y1="110" x2="240" y2="110" stroke="#7eb8f7" stroke-width="0.7" opacity="0.4"/>
+            <polygon points="240,107 246,110 240,113" fill="#7eb8f7" opacity="0.45"/>
+
+            <!-- ── 2. GW chirp: rising freq + amplitude → merger → ringdown ── -->
+            <path d="M250.0 110.0 L252.6 108.6 L255.2 107.4 L257.8 106.4 L260.4 105.7 L263.0 105.6 L265.6 106.0 L268.2 107.0 L270.8 108.4 L273.4 110.1 L276.1 111.9 L278.7 113.6 L281.3 115.0 L283.9 115.7 L286.5 115.8 L289.1 115.1 L291.7 113.6 L294.3 111.5 L296.9 109.0 L299.5 106.5 L302.1 104.4 L304.7 102.9 L307.3 102.3 L309.9 102.8 L312.5 104.4 L315.1 107.0 L317.7 110.2 L320.3 113.5 L322.9 116.5 L325.5 118.8 L328.2 119.8 L330.8 119.3 L333.4 117.3 L336.0 114.0 L338.6 109.9 L341.2 105.5 L343.8 101.7 L346.4 99.0 L349.0 98.0 L351.6 99.0 L354.2 102.0 L356.8 106.5 L359.4 111.9 L362.0 117.2 L364.6 121.6 L367.2 124.0 L369.8 123.9 L372.4 121.3 L375.0 116.3 L377.6 109.9 L380.3 103.2 L382.9 97.5 L385.5 94.0 L388.1 93.6 L390.7 96.7 L393.3 102.6 L395.9 110.5 L398.5 118.6 L401.1 125.2 L403.7 128.7 L406.3 128.0 L408.9 123.2 L411.5 115.0 L414.1 105.2 L416.7 96.1 L419.3 90.1 L421.9 89.0 L424.5 93.3 L427.1 102.4 L429.7 113.9 L432.4 124.9 L435.0 132.0 L437.6 133.0 L440.2 127.0 L442.8 115.4 L445.4 101.5 L448.0 89.8 L450.6 84.5 L453.2 88.0 L455.8 99.8 L458.4 116.0 L461.0 130.7 L463.6 137.5 L466.2 132.7 L468.8 117.4 L471.4 97.7 L474.0 83.2 L476.6 82.3 L479.2 97.2 L481.8 121.0 L484.5 138.9 L487.1 136.8 L489.7 112.7 L492.3 84.3 L494.9 81.1 L497.5 115.0 L500.1 143.2 L502.7 88.7 L505.3 81.7 L507.9 117.8 L510.5 133.6 L513.1 112.2 L515.7 93.3 L518.3 102.7 L520.9 119.9 L523.5 118.8 L526.1 105.6 L528.7 102.0 L531.3 110.5 L533.9 116.1 L536.6 111.7 L539.2 106.0 L541.8 107.4 L544.4 112.1 L547.0 112.6 L549.6 109.4 L552.2 107.8 L554.8 109.7 L557.4 111.5 L560.0 110.7" stroke="#7eb8f7" stroke-width="1.6" fill="none" opacity="0.9"/>
+            <!-- merger marker at chirp peak -->
+            <line x1="504" y1="60" x2="504" y2="160" stroke="#f5c842" stroke-width="0.6" stroke-dasharray="3 3" opacity="0.4"/>
+            <circle cx="504" cy="110" r="4" fill="#f5c842" opacity="0.9"/>
+            <circle cx="504" cy="110" r="9" fill="#f5c842" opacity="0.18"/>
+            <text x="504" y="50" text-anchor="middle" font-size="7.5" fill="#f5c842" opacity="0.7" font-family="monospace" letter-spacing="1">MERGER</text>
+            <text x="370" y="185" text-anchor="middle" font-size="8" fill="#7eb8f7" opacity="0.5" font-family="monospace" letter-spacing="2">GW STRAIN h(t)</text>
+
+            <!-- arrow into kilonova -->
+            <line x1="575" y1="110" x2="620" y2="110" stroke="#a78bfa" stroke-width="0.7" opacity="0.4"/>
+            <polygon points="620,107 626,110 620,113" fill="#a78bfa" opacity="0.45"/>
+
+            <!-- ── 3. Kilonova: expanding glowing ejecta shells ── -->
+            <circle cx="730" cy="110" r="86" fill="#a78bfa" opacity="0.04"/>
+            <circle cx="730" cy="110" r="64" fill="#a78bfa" opacity="0.07"/>
+            <!-- outer (red, lanthanide-rich) shell -->
+            <circle cx="730" cy="110" r="48" stroke="#d8714a" stroke-width="1.2" fill="rgba(216,113,74,0.05)" opacity="0.55"/>
+            <!-- inner (blue, lanthanide-poor) shell -->
+            <circle cx="730" cy="110" r="30" stroke="#7eb8f7" stroke-width="1.2" fill="rgba(126,184,247,0.07)" opacity="0.7"/>
+            <!-- hot core -->
+            <circle cx="730" cy="110" r="13" fill="#e8d8ff" opacity="0.55"/>
+            <circle cx="730" cy="110" r="6"  fill="#ffffff" opacity="0.95"/>
+            <!-- radial expansion ticks -->
+            <line x1="730" y1="62"  x2="730" y2="48"  stroke="#d8714a" stroke-width="0.8" opacity="0.4"/>
+            <line x1="730" y1="158" x2="730" y2="172" stroke="#d8714a" stroke-width="0.8" opacity="0.4"/>
+            <line x1="682" y1="110" x2="668" y2="110" stroke="#d8714a" stroke-width="0.8" opacity="0.4"/>
+            <line x1="778" y1="110" x2="792" y2="110" stroke="#d8714a" stroke-width="0.8" opacity="0.4"/>
+            <text x="730" y="190" text-anchor="middle" font-size="8" fill="#a78bfa" opacity="0.6" font-family="monospace" letter-spacing="2">KILONOVA EJECTA</text>
+
+            <!-- ── ranked SCORER output (top-right) ── -->
+            <text x="864" y="58" text-anchor="end" font-size="6.5" fill="#34d399" opacity="0.65" font-family="monospace" letter-spacing="1">SCORER RANK</text>
+            <rect x="810" y="64" width="54" height="6" rx="1" fill="#34d399" opacity="0.75"/>
+            <text x="813" y="69" font-size="5" fill="#063" font-family="monospace">KNe  0.92</text>
+            <rect x="810" y="73" width="54" height="6" rx="1" fill="#34d399" opacity="0.45"/>
+            <text x="813" y="78" font-size="5" fill="#063" font-family="monospace">KNe  0.71</text>
+            <rect x="810" y="82" width="54" height="6" rx="1" fill="#545870" opacity="0.4"/>
+            <text x="813" y="87" font-size="5" fill="#999" font-family="monospace">SN   0.14</text>
+          </svg>
+        </div>
+
+        <div class="poke-card-body">
+          <p>An open-source framework for scoring optical transient candidates against a kilonova model grid in real time, deployed into <a href="https://astro-trove.github.io/" target="_blank" style="color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(126,184,247,0.3);">TROVE</a> (Tool for Rapid Object Vetting and Examination) — a community coordination platform for multimessenger follow-up. The framework enables rapid candidate vetting using simulation-based statistical diagnostics, making it suitable for alert-driven environments such as LSST brokers and gravitational-wave follow-up infrastructures.</p>
+        </div>
+
+        <div class="poke-card-stats">
+          <div class="poke-stat"><div class="poke-stat-val">SBI</div><div class="poke-stat-label">Method</div></div>
+          <div class="poke-stat"><div class="poke-stat-val">AT2017gfo</div><div class="poke-stat-label">Validated on</div></div>
+          <div class="poke-stat"><div class="poke-stat-val">LSST-ready</div><div class="poke-stat-label">Target survey</div></div>
+          <div class="poke-stat"><div class="poke-stat-val">Open Source</div><div class="poke-stat-label">License</div></div>
+        </div>
       </div>
     </div>
 
-    <div class="research-grid fade-in" style="grid-template-columns: repeat(2, 1fr);">
-      <div class="research-card research-accent-sbi">
-        <div class="research-card-label">Open-Source Tools · MMA Community</div>
-        <div class="research-card-title">KilonovaSCORER — Real-time Kilonova Ranking for GW Follow-up</div>
-        <p>An open-source framework for scoring optical transient candidates against a kilonova model grid in real time, deployed into <a href="https://astro-trove.github.io/" target="_blank" style="color:var(--accent); text-decoration:none; border-bottom:1px solid rgba(126,184,247,0.3);">TROVE</a> (Tool for Rapid Object Vetting and Examination) — a community coordination platform for multimessenger follow-up. The framework enables rapid candidate vetting using simulation-based statistical diagnostics, making it suitable for alert-driven environments such as LSST brokers and gravitational-wave follow-up infrastructures.</p>
-      </div>
-      <div class="research-card research-accent-cv">
-        <div class="research-card-label">Neural Posterior Estimation  · SBI for Time-Domain</div>
-        <div class="research-card-title">Simulation-Based Inference for Kilonova & Transient Parameter Estimation</div>
-        <p>Building amortized Bayesian pipelines using Neural Posterior Estimation, Neural Likelihood Estimation, and sequential likelihood-free methods to rapidly infer physical parameters from spectral and light curve data. Validated on AT2017gfo and GRB230307A. </p>
+    <!-- ══ 3-UP PORTRAIT GRID ══ -->
+    <div class="poke-grid fade-in">
 
+      <!-- ── CARD 1: SBI — clean NN → posterior ── -->
+      <div class="poke-card poke-purple">
+        <div class="poke-card-inner">
+          <div class="poke-card-header">
+            <div class="poke-card-top-row">
+              <div class="poke-card-type">Neural Posterior Estimation · SBI</div>
+              <div class="poke-card-hp">HP 280</div>
+            </div>
+            <div class="poke-card-name">Simulation-Based Inference for Kilonova &amp; Transient Parameter Estimation</div>
+          </div>
+
+          <div class="poke-card-art">
+            <svg viewBox="0 0 300 200" fill="none" preserveAspectRatio="xMidYMid slice">
+              <rect width="300" height="200" fill="#08061a"/>
+              <!-- subtle stars -->
+              <circle cx="20" cy="18" r="0.7" fill="white" opacity="0.4"/>
+              <circle cx="280" cy="22" r="0.7" fill="white" opacity="0.4"/>
+              <circle cx="40" cy="182" r="0.7" fill="white" opacity="0.35"/>
+
+              <!-- ── Neural network (left half) ── -->
+              <!-- input layer -->
+              <circle cx="42" cy="70"  r="6" fill="#a78bfa" opacity="0.7"/>
+              <circle cx="42" cy="100" r="6" fill="#a78bfa" opacity="0.7"/>
+              <circle cx="42" cy="130" r="6" fill="#a78bfa" opacity="0.7"/>
+              <!-- hidden layer 1 -->
+              <circle cx="92" cy="58"  r="5.5" fill="#a78bfa" opacity="0.5"/>
+              <circle cx="92" cy="86"  r="5.5" fill="#a78bfa" opacity="0.5"/>
+              <circle cx="92" cy="114" r="5.5" fill="#a78bfa" opacity="0.5"/>
+              <circle cx="92" cy="142" r="5.5" fill="#a78bfa" opacity="0.5"/>
+              <!-- hidden layer 2 -->
+              <circle cx="142" cy="74"  r="5.5" fill="#a78bfa" opacity="0.55"/>
+              <circle cx="142" cy="100" r="5.5" fill="#a78bfa" opacity="0.55"/>
+              <circle cx="142" cy="126" r="5.5" fill="#a78bfa" opacity="0.55"/>
+              <!-- output layer (parameters θ) -->
+              <circle cx="188" cy="86"  r="6" fill="#a78bfa" opacity="0.85"/>
+              <circle cx="188" cy="114" r="6" fill="#a78bfa" opacity="0.85"/>
+
+              <!-- connections in→h1 -->
+              <line x1="48" y1="70"  x2="86" y2="58"  stroke="#a78bfa" stroke-width="0.5" opacity="0.3"/>
+              <line x1="48" y1="70"  x2="86" y2="86"  stroke="#a78bfa" stroke-width="0.5" opacity="0.3"/>
+              <line x1="48" y1="100" x2="86" y2="86"  stroke="#a78bfa" stroke-width="0.5" opacity="0.3"/>
+              <line x1="48" y1="100" x2="86" y2="114" stroke="#a78bfa" stroke-width="0.5" opacity="0.3"/>
+              <line x1="48" y1="130" x2="86" y2="114" stroke="#a78bfa" stroke-width="0.5" opacity="0.3"/>
+              <line x1="48" y1="130" x2="86" y2="142" stroke="#a78bfa" stroke-width="0.5" opacity="0.3"/>
+              <line x1="48" y1="70"  x2="86" y2="114" stroke="#a78bfa" stroke-width="0.4" opacity="0.18"/>
+              <line x1="48" y1="130" x2="86" y2="58"  stroke="#a78bfa" stroke-width="0.4" opacity="0.18"/>
+              <!-- connections h1→h2 -->
+              <line x1="98" y1="58"  x2="136" y2="74"  stroke="#a78bfa" stroke-width="0.5" opacity="0.3"/>
+              <line x1="98" y1="86"  x2="136" y2="74"  stroke="#a78bfa" stroke-width="0.5" opacity="0.3"/>
+              <line x1="98" y1="86"  x2="136" y2="100" stroke="#a78bfa" stroke-width="0.5" opacity="0.3"/>
+              <line x1="98" y1="114" x2="136" y2="100" stroke="#a78bfa" stroke-width="0.5" opacity="0.3"/>
+              <line x1="98" y1="114" x2="136" y2="126" stroke="#a78bfa" stroke-width="0.5" opacity="0.3"/>
+              <line x1="98" y1="142" x2="136" y2="126" stroke="#a78bfa" stroke-width="0.5" opacity="0.3"/>
+              <!-- connections h2→out -->
+              <line x1="148" y1="74"  x2="182" y2="86"  stroke="#a78bfa" stroke-width="0.7" opacity="0.45"/>
+              <line x1="148" y1="100" x2="182" y2="86"  stroke="#a78bfa" stroke-width="0.7" opacity="0.45"/>
+              <line x1="148" y1="100" x2="182" y2="114" stroke="#a78bfa" stroke-width="0.7" opacity="0.45"/>
+              <line x1="148" y1="126" x2="182" y2="114" stroke="#a78bfa" stroke-width="0.7" opacity="0.45"/>
+              <text x="92" y="178" text-anchor="middle" font-size="7.5" fill="#a78bfa" opacity="0.55" font-family="monospace" letter-spacing="1.5">NEURAL NETWORK</text>
+
+              <!-- arrow NN → posterior -->
+              <line x1="200" y1="100" x2="218" y2="100" stroke="#a78bfa" stroke-width="0.8" opacity="0.5"/>
+              <polygon points="218,96 224,100 218,104" fill="#a78bfa" opacity="0.55"/>
+
+              <!-- ── Posterior: clean 2-D contour (credible regions) ── -->
+              <!-- 95% region -->
+              <ellipse cx="258" cy="100" rx="32" ry="24" transform="rotate(-24 258 100)" stroke="#a78bfa" stroke-width="0.9" fill="rgba(167,139,250,0.05)" opacity="0.55"/>
+              <!-- 68% region -->
+              <ellipse cx="258" cy="100" rx="20" ry="14" transform="rotate(-24 258 100)" stroke="#a78bfa" stroke-width="1.1" fill="rgba(167,139,250,0.12)" opacity="0.8"/>
+              <!-- peak / best fit -->
+              <circle cx="258" cy="100" r="2.6" fill="#e8d8ff" opacity="1"/>
+              <line x1="258" y1="100" x2="258" y2="68"  stroke="#a78bfa" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.4"/>
+              <line x1="258" y1="100" x2="290" y2="100" stroke="#a78bfa" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.4"/>
+              <text x="240" y="148" font-size="6.5" fill="#a78bfa" opacity="0.7" font-family="monospace">p(θ | x)</text>
+              <text x="258" y="178" text-anchor="middle" font-size="7.5" fill="#a78bfa" opacity="0.55" font-family="monospace" letter-spacing="1.5">POSTERIOR</text>
+            </svg>
+          </div>
+
+          <div class="poke-card-body">
+            <p>Building amortized Bayesian pipelines using Neural Posterior Estimation, Neural Likelihood Estimation, and sequential likelihood-free methods to rapidly infer physical parameters from spectral and light curve data. Validated on AT2017gfo and GRB230307A.</p>
+          </div>
+          <div class="poke-card-stats">
+            <div class="poke-stat"><div class="poke-stat-val">NPE / NLE</div><div class="poke-stat-label">Method</div></div>
+            <div class="poke-stat"><div class="poke-stat-val">GRB230307A</div><div class="poke-stat-label">Applied to</div></div>
+          </div>
+        </div>
       </div>
-      <div class="research-card research-accent-bbh">
-        <div class="research-card-label">EM Follow-up · BBH Mergers in AGN Disks</div>
-        <div class="research-card-title">Electromagnetic Searches for BBH Mergers in Active Galactic Nuclei</div>
-        <p>Leading optical and spectroscopic follow-up of LIGO/Virgo/KAGRA binary black hole merger candidates (S231206cc & S240413p), testing whether mergers embedded in AGN accretion disks generate observable electromagnetic flares. This work combines transient discovery pipelines, physical modeling, BBH simulations and observational campaigns to probe one of the most promising channels for finding EM counterpart to BBH event ("Dark Flares").</p>
+
+      <!-- ── CARD 2: BBH in AGN ── -->
+      <div class="poke-card poke-green">
+        <div class="poke-card-inner">
+          <div class="poke-card-header">
+            <div class="poke-card-top-row">
+              <div class="poke-card-type">EM Follow-up · BBH in AGN Disks</div>
+              <div class="poke-card-hp">HP 350</div>
+            </div>
+            <div class="poke-card-name">Electromagnetic Searches for BBH Mergers in Active Galactic Nuclei</div>
+          </div>
+
+          <div class="poke-card-art">
+            <svg viewBox="0 0 300 200" fill="none" preserveAspectRatio="xMidYMid slice">
+              <rect width="300" height="200" fill="#040f0a"/>
+              <circle cx="20"  cy="18" r="0.8" fill="white" opacity="0.5"/>
+              <circle cx="285" cy="25" r="0.7" fill="white" opacity="0.4"/>
+              <circle cx="40"  cy="185" r="0.7" fill="white" opacity="0.4"/>
+              <circle cx="270" cy="180" r="0.8" fill="white" opacity="0.45"/>
+
+              <!-- relativistic jets from the central SMBH (perpendicular to disk plane) -->
+              <path d="M150 96 L141 30 L150 18 L159 30 Z" fill="#5eead4" opacity="0.10"/>
+              <path d="M150 104 L141 170 L150 182 L159 170 Z" fill="#5eead4" opacity="0.10"/>
+              <line x1="150" y1="96"  x2="150" y2="22"  stroke="#5eead4" stroke-width="0.9" opacity="0.4"/>
+              <line x1="150" y1="104" x2="150" y2="178" stroke="#5eead4" stroke-width="0.9" opacity="0.4"/>
+
+              <!-- AGN accretion disk (tilted, layered) -->
+              <ellipse cx="150" cy="100" rx="120" ry="30" stroke="#34d399" stroke-width="0.4" fill="rgba(52,211,153,0.02)" opacity="0.6"/>
+              <ellipse cx="150" cy="100" rx="95"  ry="23" stroke="#34d399" stroke-width="0.5" fill="rgba(52,211,153,0.03)" opacity="0.7"/>
+              <ellipse cx="150" cy="100" rx="70"  ry="17" stroke="#34d399" stroke-width="0.7" fill="rgba(52,211,153,0.05)" opacity="0.8"/>
+              <ellipse cx="150" cy="100" rx="46"  ry="11" stroke="#34d399" stroke-width="0.9" fill="rgba(52,211,153,0.08)" opacity="0.9"/>
+              <ellipse cx="150" cy="100" rx="24"  ry="6"  stroke="#34d399" stroke-width="1.1" fill="rgba(52,211,153,0.16)" opacity="1"/>
+
+              <!-- central supermassive black hole -->
+              <circle cx="150" cy="100" r="9" fill="#031810"/>
+              <circle cx="150" cy="100" r="5" fill="#020e08"/>
+
+              <!-- two stellar-mass black holes embedded in the disk, spiralling together -->
+              <!-- BH A -->
+              <circle cx="206" cy="100" r="5" fill="#04140c" stroke="#34d399" stroke-width="1.2" opacity="0.95"/>
+              <circle cx="206" cy="100" r="9" stroke="#34d399" stroke-width="0.4" fill="none" opacity="0.3"/>
+              <!-- BH B -->
+              <circle cx="222" cy="100" r="5" fill="#04140c" stroke="#34d399" stroke-width="1.2" opacity="0.95"/>
+              <circle cx="222" cy="100" r="9" stroke="#34d399" stroke-width="0.4" fill="none" opacity="0.3"/>
+              <!-- their tight mutual orbit -->
+              <ellipse cx="214" cy="100" rx="14" ry="5" stroke="#34d399" stroke-width="0.7" fill="none" opacity="0.5"/>
+
+              <!-- GW + EM flare at the BBH merger site -->
+              <circle cx="214" cy="100" r="14" stroke="#f5c842" stroke-width="0.6" fill="none" opacity="0.3"/>
+              <circle cx="214" cy="100" r="22" stroke="#f5c842" stroke-width="0.5" fill="none" opacity="0.15"/>
+              <path d="M214 100 L226 84"  stroke="#f5c842" stroke-width="0.8" opacity="0.5"/>
+              <path d="M214 100 L230 96"  stroke="#f5c842" stroke-width="0.8" opacity="0.5"/>
+              <path d="M214 100 L226 116" stroke="#f5c842" stroke-width="0.8" opacity="0.5"/>
+              <text x="214" y="70" text-anchor="middle" font-size="6.5" fill="#f5c842" opacity="0.7" font-family="monospace">EM FLARE?</text>
+
+              <text x="150" y="190" text-anchor="middle" font-size="7" fill="#34d399" opacity="0.55" font-family="monospace" letter-spacing="1.5">AGN DISK · S231206cc / S240413p</text>
+            </svg>
+          </div>
+
+          <div class="poke-card-body">
+            <p>Leading optical and spectroscopic follow-up of LIGO/Virgo/KAGRA binary black hole merger candidates (S231206cc &amp; S240413p), testing whether mergers embedded in AGN accretion disks generate observable electromagnetic flares. This work combines transient discovery pipelines, physical modeling, BBH simulations and observational campaigns to probe one of the most promising channels for finding EM counterparts to BBH events ("Dark Flares").</p>
+          </div>
+          <div class="poke-card-stats">
+            <div class="poke-stat"><div class="poke-stat-val">PRD 2025</div><div class="poke-stat-label">Published</div></div>
+            <div class="poke-stat"><div class="poke-stat-val">LIGO O4</div><div class="poke-stat-label">Run</div></div>
+          </div>
+        </div>
       </div>
-      <div class="research-card" style="border-top: 2px solid var(--gold);">
-        <div class="research-card-label">LAB-IA · CBPF </div>
-        <div class="research-card-title">ADSS & AI-Scope — Intelligent Infrastructure for Astronomy</div>
-        <p>As part of the CBPF LAB-IA group, developing the Astronomical Data Smart System, a next-generation platform for real-time transient discovery, alert filtering, and rapid physical inference in the LSST era. In parallel, contributing to <a href="https://ai-scope.cbpf.br/" target="_blank" style="color:var(--gold); text-decoration:none; border-bottom:1px solid rgba(255,215,0,0.3);">AI-Scope</a>, a community portal tailored for astronomers to query major sky surveys, access databases, explore catalogs, and build AI workflows for data analysis. Together, these tools bridge modern artificial intelligence with practical research infrastructure for the astronomy community.</p>
+
+      <!-- ── CARD 3: ADSS / AI-Scope ── -->
+      <div class="poke-card poke-gold">
+        <div class="poke-card-inner">
+          <div class="poke-card-header">
+            <div class="poke-card-top-row">
+              <div class="poke-card-type">LAB-IA · CBPF</div>
+              <div class="poke-card-hp">HP 240</div>
+            </div>
+            <div class="poke-card-name">ADSS &amp; AI-Scope — Intelligent Infrastructure for Astronomy</div>
+          </div>
+
+          <div class="poke-card-art">
+            <svg viewBox="0 0 300 200" fill="none" preserveAspectRatio="xMidYMid slice">
+              <rect width="300" height="200" fill="#0e0c04"/>
+              <circle cx="25" cy="16" r="0.8" fill="white" opacity="0.5"/>
+              <circle cx="275" cy="22" r="0.7" fill="white" opacity="0.4"/>
+              <circle cx="55" cy="185" r="0.7" fill="white" opacity="0.4"/>
+
+              <!-- survey telescope (left) -->
+              <line x1="58" y1="58" x2="58" y2="150" stroke="#f5c842" stroke-width="1.4" opacity="0.7"/>
+              <line x1="40" y1="56" x2="76" y2="56" stroke="#f5c842" stroke-width="2.4" opacity="0.85"/>
+              <path d="M44 58 L72 58 L67 150 L49 150 Z" stroke="#f5c842" stroke-width="0.9" fill="rgba(245,200,66,0.05)" opacity="0.65"/>
+              <line x1="58" y1="150" x2="46" y2="172" stroke="#f5c842" stroke-width="1.1" opacity="0.5"/>
+              <line x1="58" y1="150" x2="70" y2="172" stroke="#f5c842" stroke-width="1.1" opacity="0.5"/>
+              <line x1="42" y1="172" x2="74" y2="172" stroke="#f5c842" stroke-width="1.3" opacity="0.6"/>
+              <text x="58" y="44" text-anchor="middle" font-size="6.5" fill="#f5c842" opacity="0.6" font-family="monospace">SURVEY</text>
+
+              <!-- raw alert stream → AI -->
+              <line x1="82" y1="90"  x2="120" y2="100" stroke="#f5c842" stroke-width="0.7" stroke-dasharray="3 2" opacity="0.45"/>
+              <line x1="82" y1="110" x2="120" y2="100" stroke="#f5c842" stroke-width="0.7" stroke-dasharray="3 2" opacity="0.45"/>
+              <line x1="82" y1="128" x2="120" y2="105" stroke="#f5c842" stroke-width="0.7" stroke-dasharray="3 2" opacity="0.35"/>
+
+              <!-- AI filtering engine (center) -->
+              <circle cx="150" cy="100" r="26" stroke="#f5c842" stroke-width="0.8" fill="rgba(245,200,66,0.04)" opacity="0.6"/>
+              <circle cx="150" cy="100" r="16" stroke="#f5c842" stroke-width="1.0" fill="rgba(245,200,66,0.07)" opacity="0.7"/>
+              <circle cx="150" cy="100" r="4"  fill="#f5c842" opacity="0.8"/>
+              <text x="150" y="103" text-anchor="middle" font-size="6" fill="#f5c842" opacity="0.85" font-family="monospace">ADSS</text>
+
+              <!-- arrow to ranked output -->
+              <line x1="178" y1="100" x2="196" y2="100" stroke="#f5c842" stroke-width="0.8" opacity="0.5"/>
+              <polygon points="196,96 202,100 196,104" fill="#f5c842" opacity="0.55"/>
+
+              <!-- ranked candidate cards (right) -->
+              <rect x="206" y="74"  width="78" height="11" rx="2" fill="#34d399" opacity="0.75"/>
+              <text x="210" y="82"  font-size="6" fill="#052" font-family="monospace">KNe candidate 0.91</text>
+              <rect x="206" y="90"  width="78" height="11" rx="2" fill="#34d399" opacity="0.5"/>
+              <text x="210" y="98"  font-size="6" fill="#052" font-family="monospace">KNe candidate 0.68</text>
+              <rect x="206" y="106" width="78" height="11" rx="2" fill="#7eb8f7" opacity="0.35"/>
+              <text x="210" y="114" font-size="6" fill="#024" font-family="monospace">SN  contaminant 0.34</text>
+              <rect x="206" y="122" width="78" height="11" rx="2" fill="#545870" opacity="0.3"/>
+              <text x="210" y="130" font-size="6" fill="#777" font-family="monospace">bogus / artifact   0.05</text>
+
+              <text x="150" y="185" text-anchor="middle" font-size="7" fill="#f5c842" opacity="0.5" font-family="monospace" letter-spacing="1.5">REAL-TIME ALERT FILTERING · LSST ERA</text>
+            </svg>
+          </div>
+
+          <div class="poke-card-body">
+            <p>As part of the CBPF LAB-IA group, developing the Astronomical Data Smart System, a next-generation platform for real-time transient discovery, alert filtering, and rapid physical inference in the LSST era. In parallel, contributing to <a href="https://ai-scope.cbpf.br/" target="_blank" style="color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(245,200,66,0.3);">AI-Scope</a>, a community portal tailored for astronomers to query major sky surveys, access databases, explore catalogs, and build AI workflows for data analysis. Together, these tools bridge modern artificial intelligence with practical research infrastructure for the astronomy community.</p>
+          </div>
+          <div class="poke-card-stats">
+            <div class="poke-stat"><div class="poke-stat-val">LSST era</div><div class="poke-stat-label">Target</div></div>
+            <div class="poke-stat"><div class="poke-stat-val">Real-time</div><div class="poke-stat-label">Alerts</div></div>
+          </div>
+        </div>
       </div>
-      
-      <div class="research-card" style="border-top: 2px solid var(--accent2);">
-        <div class="research-card-label">GW Follow-up · Open-Source Pipeline</div>
-        <div class="research-card-title">TEGLON — A Pixel-Level Gravitational-Wave Search and Analysis Pipeline</div>
-        <p> <em>TEGLON</em>: an open-source Python framework for GW follow-up. TEGLON ingests LVK HEALPix sky maps, applies galaxy-catalog completeness weighting, redistributes localization probability, and generates optimized telescope tiling plans. The pipeline supports both rapid target-of-opportunity campaigns and detectability analyses, with extensions for binary black hole events and AGN-host prioritization. I contributed to the development of the documentation, article and extension to EM counterparts to BBH events</p>
+
+      <!-- ── CARD 4: TEGLON ── -->
+      <div class="poke-card poke-violet">
+        <div class="poke-card-inner">
+          <div class="poke-card-header">
+            <div class="poke-card-top-row">
+              <div class="poke-card-type">GW Follow-up · Open-Source Pipeline</div>
+              <div class="poke-card-hp">HP 220</div>
+            </div>
+            <div class="poke-card-name">TEGLON — A Pixel-Level Gravitational-Wave Search and Analysis Pipeline</div>
+          </div>
+
+          <div class="poke-card-art">
+            <svg viewBox="0 0 300 200" fill="none" preserveAspectRatio="xMidYMid slice">
+              <rect width="300" height="200" fill="#08061a"/>
+              <circle cx="22" cy="20" r="0.7" fill="white" opacity="0.45"/>
+              <circle cx="278" cy="24" r="0.7" fill="white" opacity="0.4"/>
+              <circle cx="48" cy="182" r="0.7" fill="white" opacity="0.4"/>
+
+              <!-- Mollweide all-sky oval -->
+              <ellipse cx="150" cy="100" rx="132" ry="64" stroke="#a78bfa" stroke-width="0.8" fill="rgba(167,139,250,0.025)" opacity="0.7"/>
+              <!-- graticule -->
+              <line x1="18" y1="100" x2="282" y2="100" stroke="#a78bfa" stroke-width="0.4" opacity="0.18"/>
+              <ellipse cx="150" cy="100" rx="132" ry="32" stroke="#a78bfa" stroke-width="0.3" fill="none" opacity="0.12"/>
+              <line x1="150" y1="36" x2="150" y2="164" stroke="#a78bfa" stroke-width="0.4" opacity="0.18"/>
+              <path d="M84 38 Q70 100 84 162" stroke="#a78bfa" stroke-width="0.3" fill="none" opacity="0.12"/>
+              <path d="M216 38 Q230 100 216 162" stroke="#a78bfa" stroke-width="0.3" fill="none" opacity="0.12"/>
+
+              <!-- GW localization contours (90% then 50%) -->
+              <path d="M110 78 Q138 56 172 64 Q200 72 206 96 Q210 120 188 138 Q162 152 134 144 Q108 136 100 112 Q96 92 110 78 Z"
+                stroke="#a78bfa" stroke-width="1.1" fill="rgba(167,139,250,0.08)" opacity="0.85"/>
+              <path d="M132 86 Q152 74 172 82 Q186 90 184 108 Q180 124 162 128 Q142 130 130 116 Q122 100 132 86 Z"
+                stroke="#a78bfa" stroke-width="1.4" fill="rgba(167,139,250,0.18)" opacity="0.9"/>
+
+              <!-- telescope tiling grid over the high-prob region -->
+              <rect x="134" y="80" width="20" height="20" rx="2" stroke="#a78bfa" stroke-width="0.7" fill="rgba(167,139,250,0.05)" opacity="0.7"/>
+              <rect x="155" y="80" width="20" height="20" rx="2" stroke="#a78bfa" stroke-width="0.7" fill="rgba(167,139,250,0.05)" opacity="0.7"/>
+              <rect x="134" y="101" width="20" height="20" rx="2" stroke="#a78bfa" stroke-width="0.7" fill="rgba(167,139,250,0.09)" opacity="0.8"/>
+              <rect x="155" y="101" width="20" height="20" rx="2" stroke="#a78bfa" stroke-width="0.7" fill="rgba(167,139,250,0.12)" opacity="0.9"/>
+
+              <!-- weighted host galaxies inside region -->
+              <circle cx="148" cy="98"  r="3"   fill="#a78bfa" opacity="0.85"/>
+              <circle cx="166" cy="92"  r="2.2" fill="#a78bfa" opacity="0.65"/>
+              <circle cx="160" cy="114" r="2.6" fill="#a78bfa" opacity="0.7"/>
+              <circle cx="140" cy="112" r="1.8" fill="#a78bfa" opacity="0.5"/>
+
+              <text x="150" y="32" text-anchor="middle" font-size="7" fill="#a78bfa" opacity="0.55" font-family="monospace" letter-spacing="1.5">LVK HEALPix SKY MAP</text>
+              <text x="150" y="186" text-anchor="middle" font-size="7" fill="#a78bfa" opacity="0.5" font-family="monospace" letter-spacing="1.5">GALAXY-WEIGHTED TILING</text>
+            </svg>
+          </div>
+
+          <div class="poke-card-body">
+            <p><em>TEGLON</em>: an open-source Python framework for GW follow-up. TEGLON ingests LVK HEALPix sky maps, applies galaxy-catalog completeness weighting, redistributes localization probability, and generates optimized telescope tiling plans. The pipeline supports both rapid target-of-opportunity campaigns and detectability analyses, with extensions for binary black hole events and AGN-host prioritization. I contributed to the development of the documentation, article, and extension to EM counterparts to BBH events.</p>
+          </div>
+          <div class="poke-card-stats">
+            <div class="poke-stat"><div class="poke-stat-val">HEALPix</div><div class="poke-stat-label">Sky map</div></div>
+            <div class="poke-stat"><div class="poke-stat-val">Python</div><div class="poke-stat-label">Stack</div></div>
+          </div>
+        </div>
       </div>
-      
-      <div class="research-card" style="border-top: 2px solid var(--accent3);">
-        <div class="research-card-label">COIN · Cosmostatistics Initiative </div>
-        <div class="research-card-title">Data-Driven Astrophysics with the <a href="https://cosmostatistics-initiative.org/" target="_blank" style="color:var(--accent3); text-decoration:none; border-bottom:1px solid rgba(52,211,153,0.3);">Cosmostatistics Initiative (COIN)</a></div>
-        <p>Member of COIN — a worldwide interdisciplinary network building data-driven solutions across astrophysics. Current COIN contributions include: i) <em>SAGUI</em>, SED-based segmentation of multi-band galaxy images; ii) an archival search for intermediate-mass black hole tidal disruption events in 62,189 elliptical galaxies using ZTF. COIN projects span statistical methodology, machine learning, and open-source tool development for the global astronomy community.</p>
+
+      <!-- ── CARD 5: COIN (wide) ── -->
+      <div class="poke-card poke-teal poke-coin">
+        <div class="poke-card-inner">
+          <div class="poke-card-header">
+            <div class="poke-card-top-row">
+              <div class="poke-card-type">COIN · Cosmostatistics Initiative</div>
+              <div class="poke-card-hp">HP 310</div>
+            </div>
+            <div class="poke-card-name">Data-Driven Astrophysics with the <a href="https://cosmostatistics-initiative.org/" target="_blank" style="color:var(--card-type-color,#5eead4);text-decoration:none;border-bottom:1px solid rgba(94,234,212,0.3);">Cosmostatistics Initiative (COIN)</a></div>
+          </div>
+
+          <div class="poke-card-art" style="flex: 0 0 140px;">
+            <svg viewBox="0 0 900 140" fill="none" preserveAspectRatio="xMidYMid slice">
+              <rect width="900" height="140" fill="#040f0f"/>
+              <circle cx="80"  cy="70" r="5.5" fill="#5eead4" opacity="0.75"/>
+              <circle cx="200" cy="55" r="4.5" fill="#5eead4" opacity="0.65"/>
+              <circle cx="290" cy="45" r="4.0" fill="#5eead4" opacity="0.6"/>
+              <circle cx="370" cy="60" r="5.0" fill="#5eead4" opacity="0.7"/>
+              <circle cx="460" cy="40" r="4.5" fill="#5eead4" opacity="0.65"/>
+              <circle cx="550" cy="65" r="5.5" fill="#5eead4" opacity="0.75"/>
+              <circle cx="640" cy="50" r="4.0" fill="#5eead4" opacity="0.6"/>
+              <circle cx="720" cy="72" r="5.0" fill="#5eead4" opacity="0.7"/>
+              <circle cx="810" cy="55" r="4.5" fill="#5eead4" opacity="0.65"/>
+              <circle cx="80"  cy="70" r="11" stroke="#5eead4" stroke-width="0.6" fill="none" opacity="0.25"/>
+              <circle cx="550" cy="65" r="11" stroke="#5eead4" stroke-width="0.6" fill="none" opacity="0.25"/>
+              <circle cx="370" cy="60" r="10" stroke="#5eead4" stroke-width="0.5" fill="none" opacity="0.2"/>
+              <line x1="85"  y1="70" x2="196" y2="57" stroke="#5eead4" stroke-width="0.7" opacity="0.3"/>
+              <line x1="204" y1="55" x2="286" y2="47" stroke="#5eead4" stroke-width="0.6" opacity="0.28"/>
+              <line x1="294" y1="45" x2="366" y2="58" stroke="#5eead4" stroke-width="0.7" opacity="0.3"/>
+              <line x1="374" y1="60" x2="456" y2="42" stroke="#5eead4" stroke-width="0.6" opacity="0.28"/>
+              <line x1="464" y1="40" x2="546" y2="63" stroke="#5eead4" stroke-width="0.7" opacity="0.3"/>
+              <line x1="554" y1="65" x2="636" y2="52" stroke="#5eead4" stroke-width="0.6" opacity="0.28"/>
+              <line x1="644" y1="50" x2="716" y2="70" stroke="#5eead4" stroke-width="0.7" opacity="0.3"/>
+              <line x1="724" y1="72" x2="806" y2="57" stroke="#5eead4" stroke-width="0.6" opacity="0.28"/>
+              <line x1="80"  y1="70" x2="370" y2="60" stroke="#5eead4" stroke-width="0.4" opacity="0.14"/>
+              <line x1="200" y1="55" x2="550" y2="65" stroke="#5eead4" stroke-width="0.4" opacity="0.14"/>
+              <line x1="370" y1="60" x2="720" y2="72" stroke="#5eead4" stroke-width="0.4" opacity="0.14"/>
+              <line x1="80"  y1="70" x2="810" y2="55" stroke="#5eead4" stroke-width="0.3" opacity="0.09"/>
+              <text x="80"  y="90" text-anchor="middle" font-size="6.5" fill="#5eead4" opacity="0.5" font-family="monospace">CBPF</text>
+              <text x="200" y="42" text-anchor="middle" font-size="6.5" fill="#5eead4" opacity="0.5" font-family="monospace">EU</text>
+              <text x="550" y="50" text-anchor="middle" font-size="6.5" fill="#5eead4" opacity="0.5" font-family="monospace">ASIA</text>
+              <text x="810" y="42" text-anchor="middle" font-size="6.5" fill="#5eead4" opacity="0.5" font-family="monospace">AU</text>
+              <line x1="0" y1="112" x2="900" y2="112" stroke="#5eead4" stroke-width="0.4" stroke-dasharray="4 6" opacity="0.2"/>
+              <text x="450" y="130" text-anchor="middle" font-size="7.5" fill="#5eead4" opacity="0.4" font-family="monospace" letter-spacing="2">WORLDWIDE INTERDISCIPLINARY NETWORK</text>
+            </svg>
+          </div>
+
+          <div class="poke-card-body">
+            <p>Member of COIN — a worldwide interdisciplinary network building data-driven solutions across astrophysics. Current COIN contributions include: i) <em>SAGUI</em>, SED-based segmentation of multi-band galaxy images; ii) an archival search for intermediate-mass black hole tidal disruption events in 62,189 elliptical galaxies using ZTF. COIN projects span statistical methodology, machine learning, and open-source tool development for the global astronomy community.</p>
+          </div>
+          <div class="poke-card-stats">
+            <div class="poke-stat"><div class="poke-stat-val">Worldwide</div><div class="poke-stat-label">Network</div></div>
+            <div class="poke-stat"><div class="poke-stat-val">SAGUI</div><div class="poke-stat-label">Current tool</div></div>
+            <div class="poke-stat"><div class="poke-stat-val">62k galaxies</div><div class="poke-stat-label">IMBH search</div></div>
+          </div>
+        </div>
       </div>
+
     </div>
   </section>
 
@@ -955,10 +1624,20 @@
       <div class="section-line"></div>
     </div>
 
-    <div style="display:flex; gap:0.75rem; margin-bottom:2rem; flex-wrap:wrap;" class="fade-in">
+    <div style="display:flex; gap:0.75rem; margin-bottom:1.5rem; flex-wrap:wrap;" class="fade-in">
       <a href="https://scholar.google.com/citations?user=a-oepmsAAAAJ" target="_blank" class="btn btn-ghost" style="font-size:0.75rem; padding:0.5rem 1.1rem;">Google Scholar</a>
       <a href="https://www.researchgate.net/profile/Phelipe-Darc" target="_blank" class="btn btn-ghost" style="font-size:0.75rem; padding:0.5rem 1.1rem;">ResearchGate</a>
       <a href="https://orcid.org/0000-0001-8833-474X" target="_blank" class="btn btn-ghost" style="font-size:0.75rem; padding:0.5rem 1.1rem;">ORCID</a>
+    </div>
+
+    <!-- FILTER BUTTONS -->
+    <div class="pub-filters fade-in" id="pub-filters">
+      <button class="pub-filter-btn active" data-filter="all">All <span class="count">(13)</span></button>
+      <button class="pub-filter-btn" data-filter="first-author">First Author <span class="count">(7)</span></button>
+      <button class="pub-filter-btn" data-filter="neurips">NeurIPS <span class="count">(3)</span></button>
+      <button class="pub-filter-btn" data-filter="2026">2026 <span class="count">(5)</span></button>
+      <button class="pub-filter-btn" data-filter="2025">2025 <span class="count">(4)</span></button>
+      <button class="pub-filter-btn" data-filter="2024">2024 <span class="count">(4)</span></button>
     </div>
 
     <div style="font-family:var(--mono); font-size:0.6rem; letter-spacing:0.15em; color:var(--dim); margin-bottom:1.5rem; text-transform:uppercase;" class="fade-in">
@@ -966,10 +1645,10 @@
       entries marked in blue &nbsp;·&nbsp; bold = P. Darc
     </div>
 
-    <div class="pub-list fade-in">
+    <div class="pub-list fade-in" id="pub-list">
 
-      <!-- 2026 first-author KilonovaSCORER PASP -->
-      <div class="pub-item" style="border-left: 2px solid rgba(126,184,247,0.4); padding-left:1rem; margin-left:-1rem;">
+      <div class="pub-item" data-year="2026" data-tags="first-author"
+           style="border-left: 2px solid rgba(126,184,247,0.4); padding-left:1rem; margin-left:-1rem;">
         <div class="pub-year">2026</div>
         <div class="pub-content">
           <div class="pub-venue" style="display:flex; align-items:center; gap:0.6rem;">
@@ -978,16 +1657,16 @@
             <span style="font-family:var(--mono); font-size:0.58rem; background:rgba(245,200,66,0.1); border:1px solid rgba(245,200,66,0.25); color:var(--gold); padding:0.15rem 0.5rem; border-radius:1px; letter-spacing:0.1em;">CIERA / Northwestern</span>
           </div>
           <div class="pub-title">KilonovaSCORER: Real-time Ranking of Optical Transient Candidates for Gravitational-Wave Follow-up</div>
-          <div class="pub-authors"><strong>P. Darc</strong> & C. D. Kilpatrick. &nbsp;·&nbsp; <span style="color:var(--dim); font-size:0.82rem;">Developed at CIERA, Northwestern University</span></div>
+          <div class="pub-authors"><strong>P. Darc</strong> &amp; C. D. Kilpatrick. &nbsp;·&nbsp; <span style="color:var(--dim); font-size:0.82rem;">Developed at CIERA, Northwestern University</span></div>
           <div style="font-size:0.8rem; color:var(--dim); line-height:1.6; margin:0.6rem 0 0.7rem; border-left:1px solid var(--border2); padding-left:0.9rem;">
-            Open-source framework for scoring and ranking kilonova candidates from sparse early-time multi-band photometry. Uses per-observation metrics P<sub>tail,KNe</sub> and P<sub>near,KNe</sub> aggregated via inverse-variance weighting in logit space, with a sequential ABC diagnostic for temporal consistency. Validated on AT 2017gfo and SN 2025ulz; median supernova contaminant scores fall to zero by 3–4 d post-trigger under LSST ToO simulations while kilonova medians remain ≥ 0.4.
+            Open-source framework for scoring and ranking kilonova candidates from sparse early-time multi-band photometry. Uses per-observation metrics P<sub>tail,KNe</sub> and P<sub>near,KNe</sub> aggregated via inverse-variance weighting in logit space, with a sequential ABC diagnostic for temporal consistency. Validated on AT 2017gfo and SN 2025ulz.
           </div>
           <a href="https://github.com/phelipedarc/KilonovaSCORER/tree/main" target="_blank" class="pub-link">GitHub · phelipedarc/KilonovaSCORER</a>
         </div>
       </div>
 
-      <!-- 2026 first-author BBH AGN S240413p -->
-      <div class="pub-item" style="border-left: 2px solid rgba(126,184,247,0.4); padding-left:1rem; margin-left:-1rem;">
+      <div class="pub-item" data-year="2026" data-tags="first-author"
+           style="border-left: 2px solid rgba(126,184,247,0.4); padding-left:1rem; margin-left:-1rem;">
         <div class="pub-year">2026</div>
         <div class="pub-content">
           <div class="pub-venue" style="display:flex; align-items:center; gap:0.6rem;">
@@ -1000,19 +1679,17 @@
         </div>
       </div>
 
-      <!-- 2026 co-author SAGUI -->
-      <div class="pub-item">
+      <div class="pub-item" data-year="2026" data-tags="co-author">
         <div class="pub-year">2026</div>
         <div class="pub-content">
-          <div class="pub-venue">arXiv Preprint · Instrumentation & Methods</div>
+          <div class="pub-venue">arXiv Preprint · Instrumentation &amp; Methods</div>
           <div class="pub-title">SAGUI: SED-based Segmentation of Multi-band Galaxy Images — Application to JADES in GOODS-South</div>
           <div class="pub-authors">de Souza R.S., Wille A., Shenoy S., …, <strong>P. Darc</strong>, Durgesh R.</div>
           <a href="https://arxiv.org/abs/2604.18812" target="_blank" class="pub-link">arXiv:2604.18812</a>
         </div>
       </div>
 
-      <!-- 2026 co-author SN 2022acko -->
-      <div class="pub-item">
+      <div class="pub-item" data-year="2026" data-tags="co-author">
         <div class="pub-year">2026</div>
         <div class="pub-content">
           <div class="pub-venue">The Astrophysical Journal · Vol 998</div>
@@ -1022,8 +1699,7 @@
         </div>
       </div>
 
-      <!-- 2026 co-author subsolar mass GW -->
-      <div class="pub-item">
+      <div class="pub-item" data-year="2026" data-tags="co-author">
         <div class="pub-year">2026</div>
         <div class="pub-content">
           <div class="pub-venue">arXiv Preprint · High Energy Astrophysics</div>
@@ -1033,8 +1709,8 @@
         </div>
       </div>
 
-      <!-- 2025 first-author PRD -->
-      <div class="pub-item" style="border-left: 2px solid rgba(126,184,247,0.4); padding-left:1rem; margin-left:-1rem;">
+      <div class="pub-item" data-year="2025" data-tags="first-author"
+           style="border-left: 2px solid rgba(126,184,247,0.4); padding-left:1rem; margin-left:-1rem;">
         <div class="pub-year">2025</div>
         <div class="pub-content">
           <div class="pub-venue" style="display:flex; align-items:center; gap:0.6rem;">
@@ -1047,8 +1723,7 @@
         </div>
       </div>
 
-      <!-- 2025 co-author Franz kilonova search -->
-      <div class="pub-item">
+      <div class="pub-item" data-year="2025" data-tags="co-author">
         <div class="pub-year">2025</div>
         <div class="pub-content">
           <div class="pub-venue">The Astrophysical Journal Letters · Vol 994(2)</div>
@@ -1058,8 +1733,8 @@
         </div>
       </div>
 
-      <!-- 2025 NeurIPS symbolic regression -->
-      <div class="pub-item" style="border-left: 2px solid rgba(126,184,247,0.4); padding-left:1rem; margin-left:-1rem;">
+      <div class="pub-item" data-year="2025" data-tags="first-author neurips"
+           style="border-left: 2px solid rgba(126,184,247,0.4); padding-left:1rem; margin-left:-1rem;">
         <div class="pub-year">2025</div>
         <div class="pub-content">
           <div class="pub-venue" style="display:flex; align-items:center; gap:0.6rem;">
@@ -1073,8 +1748,17 @@
         </div>
       </div>
 
-      <!-- 2024 first-author ApJ -->
-      <div class="pub-item" style="border-left: 2px solid rgba(126,184,247,0.4); padding-left:1rem; margin-left:-1rem;">
+      <div class="pub-item" data-year="2025" data-tags="co-author">
+        <div class="pub-year">2025</div>
+        <div class="pub-content">
+          <div class="pub-venue">arXiv Preprint</div>
+          <div class="pub-title">TEGLON: A Pixel-Level Gravitational-Wave Follow-up and Analysis Pipeline</div>
+          <div class="pub-authors">Morgan R., …, <strong>P. Darc</strong>, et al.</div>
+        </div>
+      </div>
+
+      <div class="pub-item" data-year="2024" data-tags="first-author"
+           style="border-left: 2px solid rgba(126,184,247,0.4); padding-left:1rem; margin-left:-1rem;">
         <div class="pub-year">2024</div>
         <div class="pub-content">
           <div class="pub-venue" style="display:flex; align-items:center; gap:0.6rem;">
@@ -1088,8 +1772,8 @@
         </div>
       </div>
 
-      <!-- 2024 NeurIPS -->
-      <div class="pub-item" style="border-left: 2px solid rgba(126,184,247,0.4); padding-left:1rem; margin-left:-1rem;">
+      <div class="pub-item" data-year="2024" data-tags="first-author neurips"
+           style="border-left: 2px solid rgba(126,184,247,0.4); padding-left:1rem; margin-left:-1rem;">
         <div class="pub-year">2024</div>
         <div class="pub-content">
           <div class="pub-venue" style="display:flex; align-items:center; gap:0.6rem;">
@@ -1102,8 +1786,7 @@
         </div>
       </div>
 
-      <!-- 2024 MNRAS Hubble -->
-      <div class="pub-item">
+      <div class="pub-item" data-year="2024" data-tags="co-author">
         <div class="pub-year">2024</div>
         <div class="pub-content">
           <div class="pub-venue">Monthly Notices of the Royal Astronomical Society · Vol 535(1)</div>
@@ -1113,8 +1796,7 @@
         </div>
       </div>
 
-      <!-- 2024 MNRAS STEP -->
-      <div class="pub-item">
+      <div class="pub-item" data-year="2024" data-tags="co-author">
         <div class="pub-year">2024</div>
         <div class="pub-content">
           <div class="pub-venue">Monthly Notices of the Royal Astronomical Society · Vol 529(1)</div>
@@ -1124,18 +1806,9 @@
         </div>
       </div>
 
-      <!-- 2024 Astronomy & Computing photoz -->
-      <div class="pub-item">
-        <div class="pub-year">2024</div>
-        <div class="pub-content">
-          <div class="pub-venue">Astronomy and Computing</div>
-          <div class="pub-title">Photometric Redshifts Probability Density Estimation from Recurrent Neural Networks in the DECam Local Volume Exploration Survey Data Release 2</div>
-          <div class="pub-authors">Teixeira G., Bom C.R., Santana-Silva L., Fraga B.M.O., <strong>P. Darc</strong>, et al.</div>
-          <a href="https://doi.org/10.1016/j.ascom.2024.100886" target="_blank" class="pub-link">A&C 100886</a>
-        </div>
-      </div>
-
     </div>
+    <div id="pub-empty">No publications match this filter.</div>
+
   </section>
 
   <div class="cosmic-divider"><span class="cosmic-divider-symbol">* * *</span></div>
@@ -1179,7 +1852,7 @@
           </div>
         </div>
 
-        <div class="cv-col-title" style="margin-top:2.5rem;">Selected Talks & Posters</div>
+        <div class="cv-col-title" style="margin-top:2.5rem;">Selected Talks &amp; Posters</div>
 
         <div class="cv-entry">
           <div class="cv-line" style="background: rgba(167,139,250,0.4);"></div>
@@ -1217,7 +1890,7 @@
           <div>
             <div class="cv-date">DEC 2025 — MAY 2026</div>
             <div class="cv-role">Visiting Researcher</div>
-            <div class="cv-place">CIERA · Northwestern University · Evanston, IL, USA<br>Developed and submitted KilonovaSCORER to PASP — real-time kilonova ranking framework for GW follow-up </div>
+            <div class="cv-place">CIERA · Northwestern University · Evanston, IL, USA<br>Developed and submitted KilonovaSCORER to PASP — real-time kilonova ranking framework for GW follow-up</div>
           </div>
         </div>
 
@@ -1235,7 +1908,7 @@
           <div>
             <div class="cv-date">2020 — Now</div>
             <div class="cv-role">Research Collaborations</div>
-            <div class="cv-place">DESGW Collaboration + S-PLUS + FINK + COIN + TROVE </div>
+            <div class="cv-place">DESGW Collaboration + S-PLUS + FINK + COIN + TROVE</div>
           </div>
         </div>
 
@@ -1243,7 +1916,7 @@
 
         <div class="skills-grid" style="grid-template-columns: 1fr;">
           <div>
-            <div class="skill-group-title">Machine Learning & AI</div>
+            <div class="skill-group-title">Machine Learning &amp; AI</div>
             <div class="skill-item">
               <span class="skill-name">Simulation-Based Inference</span>
               <div class="skill-bar"><div class="skill-fill" style="width:95%"></div></div>
@@ -1262,7 +1935,7 @@
             </div>
           </div>
           <div style="margin-top:1.2rem;">
-            <div class="skill-group-title">Tools & Languages</div>
+            <div class="skill-group-title">Tools &amp; Languages</div>
             <div class="skill-item">
               <span class="skill-name">Python / SQL / Git</span>
               <div class="skill-bar"><div class="skill-fill" style="width:95%; background: var(--accent2)"></div></div>
@@ -1348,7 +2021,7 @@
 </div>
 
 <script>
-// Starfield
+// ─── STARFIELD ───────────────────────────────────────────
 const canvas = document.getElementById('starfield');
 const ctx = canvas.getContext('2d');
 let stars = [];
@@ -1390,17 +2063,100 @@ initStars();
 requestAnimationFrame(drawStars);
 window.addEventListener('resize', () => { resize(); initStars(); });
 
-// Scroll fade-in
+// ─── SCROLL FADE-IN ──────────────────────────────────────
 const fadeEls = document.querySelectorAll('.fade-in');
 const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.12 });
 fadeEls.forEach(el => observer.observe(el));
 
-// Stagger hero fade in immediately
-document.querySelectorAll('.hero .fade-in, .hero-text, .hero-visual').forEach((el, i) => {
+document.querySelectorAll('.hero .fade-in, .hero-text, .hero-visual').forEach(el => {
   el.style.opacity = '1';
   el.style.transform = 'none';
+});
+
+// ─── ACTIVE NAV ON SCROLL ────────────────────────────────
+const sections = ['research', 'publications', 'cv', 'contact'];
+const navLinks = document.querySelectorAll('.nav-links a[data-section]');
+
+function updateActiveNav() {
+  const scrollY = window.scrollY + 120; // offset for fixed nav height
+  let current = '';
+
+  for (const id of sections) {
+    const el = document.getElementById(id);
+    if (el && el.offsetTop <= scrollY) current = id;
+  }
+
+  navLinks.forEach(a => {
+    a.classList.toggle('nav-active', a.dataset.section === current);
+  });
+}
+
+window.addEventListener('scroll', updateActiveNav, { passive: true });
+updateActiveNav();
+
+// ─── HOLOGRAPHIC CARD TILT ───────────────────────────────
+document.querySelectorAll('.poke-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width)  * 100;
+    const y = ((e.clientY - rect.top)  / rect.height) * 100;
+    const rotX = (y - 50) * -0.12;
+    const rotY = (x - 50) *  0.12;
+    const angle = Math.atan2(e.clientY - rect.top - rect.height / 2,
+                             e.clientX - rect.left  - rect.width  / 2) * (180 / Math.PI) + 90;
+    card.style.transform = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-6px) scale(1.012)`;
+    card.style.setProperty('--holo-x', x + '%');
+    card.style.setProperty('--holo-y', y + '%');
+    card.style.setProperty('--holo-angle', angle + 'deg');
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+    card.style.removeProperty('--holo-x');
+    card.style.removeProperty('--holo-y');
+    card.style.removeProperty('--holo-angle');
+  });
+});
+
+// ─── PUBLICATION FILTER ──────────────────────────────────
+const filterBtns = document.querySelectorAll('.pub-filter-btn');
+const pubItems   = document.querySelectorAll('#pub-list .pub-item');
+const pubEmpty   = document.getElementById('pub-empty');
+
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const filter = btn.dataset.filter;
+
+    // Update button states
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    // Show / hide items
+    let visible = 0;
+    pubItems.forEach(item => {
+      const year = item.dataset.year;
+      const tags = (item.dataset.tags || '').split(' ');
+
+      let show = false;
+      if (filter === 'all') {
+        show = true;
+      } else if (filter === 'first-author') {
+        show = tags.includes('first-author');
+      } else if (filter === 'neurips') {
+        show = tags.includes('neurips');
+      } else {
+        // year filter
+        show = year === filter;
+      }
+
+      item.hidden = !show;
+      if (show) visible++;
+    });
+
+    // Empty state
+    pubEmpty.style.display = visible === 0 ? 'block' : 'none';
+  });
 });
 </script>
 
