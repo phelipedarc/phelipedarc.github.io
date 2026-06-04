@@ -1074,6 +1074,92 @@
     letter-spacing: 0.12em;
     text-transform: uppercase;
   }
+
+  /* ═══════════════════ RESPONSIVE / MOBILE ═══════════════════ */
+
+  /* Tablet & large phone */
+  @media (max-width: 860px) {
+    nav { padding: 0.95rem 1.4rem; }
+    .nav-links { gap: 1.4rem; }
+    /* hide section jump-links, keep logo + Download CV */
+    .nav-links a[data-section] { display: none; }
+
+    .hero {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      padding: 7rem 1.5rem 3rem;
+      min-height: auto;
+      text-align: left;
+    }
+    .hero-visual { order: -1; }            /* show orbit above text */
+    .hero-bio { max-width: none; }
+
+    .profile-orbit { width: 280px !important; height: 280px !important; }
+
+    section { padding: 3.5rem 1.5rem; }
+    .section-title { font-size: 1.65rem; }
+    .section-header { gap: 1rem; margin-bottom: 2.5rem; }
+
+    .stat-row { gap: 1.8rem; }
+    .stat-num { font-size: 2rem; }
+
+    /* cards: 2-up */
+    .poke-grid { grid-template-columns: repeat(2, 1fr); gap: 1.1rem; }
+
+    /* CV & contact stack */
+    .cv-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .contact-inner {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      padding: 3.5rem 1.5rem;
+    }
+    .contact-heading { font-size: 1.8rem; }
+
+    .cosmic-divider { padding: 0 1.5rem; }
+    footer { padding: 2rem 1.5rem; flex-direction: column; gap: 1rem; align-items: flex-start; }
+  }
+
+  /* Phone */
+  @media (max-width: 560px) {
+    nav { padding: 0.85rem 1.1rem; }
+    .nav-logo { font-size: 1rem; }
+    .nav-cta { font-size: 0.66rem; padding: 0.3rem 0.7rem; }
+
+    .hero { padding: 6.5rem 1.1rem 2.5rem; gap: 2rem; }
+    .hero-subtitle { font-size: 0.66rem; letter-spacing: 0.06em; }
+    .hero-bio { font-size: 0.96rem; }
+
+    .profile-orbit { width: 230px !important; height: 230px !important; }
+    /* badges crowd the smaller orbit — hide them on phones */
+    .orbit-stat { display: none; }
+
+    section { padding: 3rem 1.1rem; }
+
+    /* stats wrap to a tidy 2-up */
+    .stat-row { flex-wrap: wrap; gap: 1.2rem 2.2rem; }
+
+    /* cards: single column */
+    .poke-grid { grid-template-columns: 1fr; gap: 1.1rem; }
+    .poke-card-name { font-size: 0.95rem; }
+    .poke-card-body p { font-size: 0.8rem; }
+
+    /* publications: smaller year gutter */
+    .pub-item { grid-template-columns: 44px 1fr; gap: 0.8rem; padding: 1.5rem 0; }
+    .pub-title { font-size: 1rem; }
+
+    .hero-actions .btn { padding: 0.65rem 1.2rem; font-size: 0.78rem; }
+
+    /* CV action buttons stack full width */
+    #cv > div[style*="margin-top:3rem"] { flex-direction: column; }
+    #cv > div[style*="margin-top:3rem"] .btn { width: 100%; justify-content: center; }
+  }
+
+  /* Disable 3-D tilt jitter on touch devices (no hover) */
+  @media (hover: none) {
+    .poke-card:hover { transform: none; }
+    .poke-card:hover::before { opacity: 0; }
+  }
+
 </style>
 </head>
 <body>
